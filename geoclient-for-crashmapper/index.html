@@ -1,0 +1,362 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>⅕ of NYC collision data wrong — Accursed Ware</title>
+  <meta name="author" content="John Krauss"/>
+
+  
+  <meta name="description" content="Foo bar baz."/>
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  
+  <link rel="canonical" href="http://blog.johnkrauss.com/geoclient-for-crashmapper"/>
+  <link href="/favicon.png" rel="icon"/>
+  <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css"/>
+  <link href="/atom.xml" rel="alternate" title="Accursed Ware" type="application/atom+xml"/>
+  <script src="//cdn.jsdelivr.net/jquery/1.11/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.min.js"><\/script>')</script>
+  
+  <script type="text/javascript" src="//use.typekit.net/ijs2xpi.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+  
+  
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-20153319-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body >
+  
+  <header role="banner" class="hidden">
+  <h1><a href="/">Accursed Ware</a></h1>
+
+
+
+</header>
+  
+  <nav class="navbar navbar-static-top" role="navigation"><div class="nav-collapse collapse">
+<ul class="nav subscription pull-right" data-subscription="rss">
+  <li><a href="/atom.xml" rel="alternate" data-type="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form class="navbar-search pull-right" action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="blog.johnkrauss.com" />
+    <input type="hidden" name="q" value="site:blog.johnkrauss.com" />
+    <input class="search search-query" type="text" id="q" name="q"
+      placeholder="Search"
+       />
+  </fieldset>
+  
+</form>
+  
+</div>
+<ul class="nav main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="content" class="container">
+    <article class="hentry span10 offset1" role="article">
+  
+  <header>
+    
+      
+        
+          
+        
+      
+      
+      <h1 class="entry-title">⅕ of NYC Collision Data Wrong</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-02-01T00:00:00-05:00" data-updated="true">Feb 1<span>st</span>, 2014</time>
+      </p>
+    
+  </header>
+
+
+<div class="entry-content lettrine"><p>New York has really stepped up its open data game in the last year.  Data sets
+like <a href="https://data.cityofnewyork.us/data?browseSearch=acris">ACRIS</a> (the city property records) and <a href="https://data.cityofnewyork.us/City-Government/Primary-Land-Use-Tax-Lot-Output-Map-MapPLUTO-/f888-ni5f">MapPLUTO</a> (GIS) that used to
+cost thousands of dollars are now free.  While it&rsquo;s in beta with limited
+access, the city now makes available its official geocoder, too.  This openness
+is drawing into harsh relief excctly how poor the quality of the city&rsquo;s
+collision statistics are.</p>
+
+<p>The NYPD has been releasing intersection-level collision reports every month
+since August 2011.  I&rsquo;ve been collecting and processing these reports from an
+obfuscated Excel (originally only PDF) format into <a href="http://nypd.openscrape.com/">machine-readable
+CSVs</a>.</p>
+
+<p>These reports are the basis for <a href="http://nyc.crashmapper.com/">NYC Crashmapper</a>, an interactive map of
+these collisions across the city.  Unfortunately, the actual releases do not
+include geographical information; they include only the borough, police
+precinct, and street intersection.  With some help from <a href="http://arcgis.com/apps/PublicGallery/index.html?appid=130c910362124107907482d762ff6a01&amp;group=1ab97dd0518e47e59e47686f479e241d">Tom Swanson</a>, most
+of these intersections were geocoded using ArcGIS, while new intersections
+appearing on the monthly report were batched through Google&rsquo;s public geocoder.</p>
+
+<p>This process yielded longitude and latitude for about 97% of the almost 44,000
+intersections with collisions on record for the last several years.  However,
+there were clearly problems with the data.  Sometimes Google would get it
+wrong, placing an intersection well outside the boundaries of New York, or
+simply place an intersection in the wrong police precinct.  Occasionally
+I would do cleanings to filter these out, but at heart Google&rsquo;s geocoder is
+something of a black box.  I knew some percentage of the intersections had the
+wrong longitude/latitude, but it was impossible to know precisely how many, or
+how wrong they were.</p>
+
+<p>While NYC&rsquo;s <a href="http://www.nyc.gov/html/dcp/html/bytes/applbyte.shtml#geocoding_application">own geocoder</a> has been floating around for a while, it was
+originally a Windows-only executable.  I messed around with it, but booting up
+a Virtualbox and clicking around in a GUI couldn&rsquo;t be easily integrated into
+an automated workflow.</p>
+
+<p>Now the same data is available, although it requires an app registration and
+delay (several days, for me), as the <a href="https://developer.cityofnewyork.us/api/geoclient-api-beta">Geoclient API</a>.  Six REST endpoints
+provide longitude and latitude, alongside a host of other info (city council
+districts, police precincts, etc.) as JSON based off of address, intersection,
+blockface, place name, BBL, or BIN input.  I wrapped the API in <a href="https://github.com/talos/nyc-geoclient">Python
+bindings</a> to make it a bit easier to work with.</p>
+
+<p>Upon receiving email confirmation from DoITT that my app had been approved to
+use the API, I ran through the 44,000 intersections.  There doesn&rsquo;t appear to
+be any kind of rate limiting, and the process went relatively quickly.  There&rsquo;s
+no batch feature at the moment, so each request must be made individually.</p>
+
+<table>
+  <tr><th></th>                                 <th># of intersections</th> <th>%</th></tr>
+  <tr><th>Successfully geocoded</th>            <td>36058</td>              <td>82.37</td></tr>
+  <tr><th><i>&#8221;&#8221;&#8221; (precinct match)</i></th>      <td><i>33700</i></td>       <td><i>76.99</i></td></tr>
+  <tr><th><i>&#8221;&#8221;&#8221; (precinct mismatch)</i></th>   <td><i>2358</i></td>        <td><i>5.39</i></td></tr>
+  <tr><th>Streets do not intersect</th>         <td>4139</td>               <td>9.46</td></tr>
+  <tr><th>Streets intersect twice</th>          <td>2651</td>               <td>6.06</td></tr>
+  <tr><th>Streets intersect more than twice</th><td>626</td>                <td>1.43</td></tr>
+  <tr><th>Invalid street name</th>              <td>149</td>                <td>0.34</td></tr>
+  <tr><th>Place name instead of street name, non-addressable</th><td>77</td><td>0.17</td></tr>
+  <tr><th>Misspelled street name</th>           <td>32</td>                 <td>0.07</td></tr>
+  <tr><th>One street name was &#8216;UNKNOWN&#8217;</th>    <td>21</td>                 <td>0.05</td></tr>
+  <tr><th>Place name instead of street name, addressable</th><td>19</td>    <td>0.04</td></tr>
+  <tr><th>Other (&#8220;not part of&#8221;)</th>            <td>2</td>                  <td>0.00</td></tr>
+</table>
+
+
+<p>The success rate was much less than the combined ArcGIS/Google approach: almost
+18% of the intersections could not be associated with lon/lats.  However, the
+Geoclient&rsquo;s error messages are great.  Instead of pulling the wrong lon/lat or
+nothing at all, it identifies exactly what&rsquo;s going wrong: in almost 1 in 10
+intersections in the reports, the identified streets <em>don&rsquo;t even intersect</em>.</p>
+
+<p>In many cases, this can be chalked up to a misspelling, generally a missed
+prefix or switched up Avenue, Street, or Place &mdash; for example, the intersection
+of 32 Street and Flatbush Ave in Brooklyn.  Clearly East 32 Street must have
+been intended.  In many other cases, the information must simply be wrong.  One
+intersection, of Ocean Parkway and Seton Place in Brooklyn, is merely
+impossible.</p>
+
+<p>The &ldquo;streets intersect twice&rdquo; phenomenon is interesting, and even approximately
+solvable.  This happens in cases like the <a href="https://www.google.com/maps/preview/place/Neptune+Ave+%26+Brighton+3rd+St,+Brooklyn,+NY+11235/@40.5807057,-73.9650921,17z/data=!4m2!3m1!1s0x89c24444753fe54d:0xc02ed3f455d9a605">intersection of Brighton 3 Street
+and Neptune Avenue</a> in Brooklyn, where the cross street jogs
+a short distance.  It&rsquo;s possible to ask the geocoder for the more northerly or
+southerly intersection, however, the NYPD data is still ambiguous as to which
+was closer.</p>
+
+<p class="center"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3030.2287594726517!2d-73.9650921!3d40.5807057!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24444753fe54d%3A0xc02ed3f455d9a605!2sNeptune+Ave+%26+Brighton+3rd+St%2C+Brooklyn%2C+NY+11235!5e0!3m2!1sen!2sus!4v1391291435007" width="400" height="300" frameborder="0" style="border:0"></iframe></p>
+
+
+<p>The last significant chunk of missed geocoding is because of intersections
+&ldquo;more than twice&rdquo;.  This can happen in intersections like <a href="https://www.google.com/maps/preview/place/Kings+Hwy+%26+Avenue+K,+Brooklyn,+NY/@40.6257719,-73.9331992,18z/data=!4m2!3m1!1s0x89c24355b603e4cf:0xc31b80b14b1a7c1b">Avenue K and King&rsquo;s
+Highway</a> where the layout of one of the streets results in
+multiple crossings.</p>
+
+<p class="center"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1514.0931806910887!2d-73.9331992!3d40.6257719!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24355b603e4cf%3A0xc31b80b14b1a7c1b!2sKings+Hwy+%26+Avenue+K%2C+Brooklyn%2C+NY!5e0!3m2!1sen!2sus!4v1391292147906" width="400" height="300" frameborder="0" style="border:0"></iframe></p>
+
+
+<p>There were an additional slightly more than 5% of intersections that were
+geocoded, but whose police precincts did not match.  Since this is all
+intersection-level data, this is to be expected in some cases: intersections
+can skirt precinct boundaries, and in such cases it would be unclear which
+precinct the &ldquo;real&rdquo; report would come from.  However, there were odd cases
+where the NYPD filed an intersection under the wrong precinct, for example,
+filing the <a href="https://www.google.com/maps/preview/place/Ocean+Pkwy+%26+Avenue+V,+Brooklyn,+NY+11223/@40.5957238,-73.9650048,17z/data=!3m1!4b1!4m2!3m1!1s0x89c244f5dc18ba85:0xcae280f4057393a3">intersection of Avenue V and Ocean Parkway</a> in
+Brooklyn in the 60, instead of the 61 precinct where it actually is.</p>
+
+<p class="center"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3029.5483480885487!2d-73.9650048!3d40.5957238!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c244f5dc18ba85%3A0xcae280f4057393a3!2sOcean+Pkwy+%26+Avenue+V%2C+Brooklyn%2C+NY+11223!5e0!3m2!1sen!2sus!4v1391272537346" width="400" height="300" frameborder="0" style="border:0"></iframe></p>
+
+
+<p>Even if the data quality on the existing reports were perfect, the information
+would be hobbled by the identification by intersection.  The data is assembled
+from the state&rsquo;s <a href="http://www.dmv.ny.gov/forms/mv104.pdf">MV-104</a> forms, which do not have to specify a location more
+precisely than an intersection.  Officers fill out these forms on-site, and any
+mistakes or inaccuracies on the form will be entered into the database, without
+any sort of further checking.</p>
+
+<p>Google was far more liberal dispensing coordinates.  Its geocoder was able to
+provide coordinates for the vast majority of the intersections Geoclient
+couldn&rsquo;t, however these coordinates are very suspect.</p>
+
+<table>
+  <tr><th></th>                   <th># of intersections</th><th>%</th>
+  <tr><th>Geocoded in both</th>   <td>36055</td>             <td>82.37%</td>
+  <tr><th><i>&#8221;&#8221;&#8221; (&gt; 0.01 lat/lon difference)</i></th><td><i>180</i></td><td><i>0.41%</i></td>
+  <tr><th><i>&#8221;&#8221;&#8221; (&lt; 0.01, &gt;0.0003 lat/lon difference)</i></th><td><i>378</i></td><td><i>0.86%</i></td>
+  <tr><th>Google only</th>        <td>6490</td>              <td>14.83%</td>
+  <tr><th>Geoclient only</th>     <td>3</td>                 <td>0.00%</td>
+  <tr><th>Neither</th>            <td>1226</td>              <td>2.80%</td>
+</table>
+
+
+<p>In cases where both geocoders captured a lon/lat but there was a significant
+difference, the NYC geocoder was superior.  For example, it was able to capture
+the <a href="https://www.google.com/maps/preview/place/NYU+Med+Center:+Hilz+Max+J+MD/@40.7394131,-73.9764686,18z/data=!4m7!1m4!3m3!1s0x89c2598378c717a7:0x266d24f6c67a6b6d!2s27+1st+Ave,+New+York,+NY+10003!3b1!3m1!1s0x0:0x649aab3e087f8735">intersection of East 27 St and 1 Avenue</a> in Manhattan.  Google was
+unable to understand that East 27 St continues even though it is closed off to
+cars, and erroneously identified the intersection of East 2 St and 1 Ave.</p>
+
+<p class="center"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1511.5139148409382!2d-73.97646857235236!3d40.73941314916777!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x649aab3e087f8735!2sNYU+Med+Center%3A+Hilz+Max+J+MD!5e0!3m2!1sen!2sus!4v1391294585211" width="400" height="300" frameborder="0" style="border:0"></iframe></p>
+
+
+<p>Even fairly minute differences in longitude or latitude signal problems with
+the Google geocoding &mdash; for example, a difference as small as 0.0003 degree
+indicates that Google mixed up Beach Terrace and Oak Terrace on their
+<a href="https://www.google.com/maps/preview/place/%2B40%C2%B048'33.62%22,+-73%C2%B054'48.60%22/@40.80934,-73.9135,17z/data=!3m1!4b1!4m2!3m1!1s0x0:0x0">intersection across Beekman Ave</a> in the Bronx.</p>
+
+<p class="center"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1509.9293108982622!2d-73.9134544024479!3d40.80910044385041!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zKzQwwrA0OCczMy42MiIsIC03M8KwNTQnNDguNjAi!5e0!3m2!1sen!2sus!4v1391296500495" width="400" height="300" frameborder="0" style="border:0"></iframe></p>
+
+
+<p>While the Geoclient geocoder is not able to make clear statements about many of
+the intersections in the NYPD collision dataset, it does a far better job for
+those it identifies.  Those it cannot, which Google does, are ambiguous in the
+cases where the Geoclient&rsquo;s error was that there are multiple intersections
+(about 7.5%), and generally indicate an NYPD data entry error in the cases
+where Geoclient recognizes no intersection (almost 10%).</p>
+
+<p>What can be done now that it&rsquo;s so clear how problematic these reports are?</p>
+
+<ol>
+<li><p>The NYPD should be pressed to cooperate with DoITT to geocode intersections
+on the reports they file, and double check those that don&rsquo;t pass through the
+geocoder.  Even if the reports, being state mandated, can&rsquo;t be modified, the
+geocoder is the perfect tool to catch bad data at the time of entry.</p></li>
+<li><p>If the Geoclient API identifies a problem, the officer who entered
+problematic information should be asked to clarify.  The correction or
+comment would be entered into the monthly release.</p></li>
+<li><p>The NYPD could switch to a daily feed of MV-104 reports, and such
+a check could be worked directly into the filing process.</p></li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">John Krauss</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-02-01T00:00:00-05:00" data-updated="true">Feb 1<span>st</span>, 2014</time>
+      
+
+
+    </p>
+    <p class="meta">
+      
+        
+          <a class="basic-alignment left" href="/installing-youtube-viewer" title="Previous Post: A YouTube CLI for Mac">&larr;<span class="hide-mobile">&nbsp;A YouTube CLI for Mac</span></a>
+        
+        
+      
+    </p>
+  </footer>
+	
+	<section id="comments">
+		<h1>Comments</h1>
+		
+		
+		<div id="disqus_thread" aria-live="polite">
+			<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+		</div>
+		
+	</section>
+	
+</article>
+
+  </div>
+  <footer role="contentinfo"><a rel="license" href="/license" class="CC">
+  <img alt="Creative Commons License" src="/img/cc-by-nc-small.png">
+</a>
+
+<script src="/js/typo.js"></script>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'recessionporn';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,917 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Accursed Ware]]></title>
+  <link href="http://blog.johnkrauss.com/atom.xml" rel="self"/>
+  <link href="http://blog.johnkrauss.com/"/>
+  <updated>2014-04-12T16:02:10-04:00</updated>
+  <id>http://blog.johnkrauss.com/</id>
+  <author>
+    <name><![CDATA[John Krauss]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[⅕ of NYC collision data wrong]]></title>
+    <link href="http://blog.johnkrauss.com/geoclient-for-crashmapper"/>
+    <updated>2014-02-01T00:00:00-05:00</updated>
+    <id>http://blog.johnkrauss.com/geoclient-for-crashmapper</id>
+    <content type="html"><![CDATA[<p>New York has really stepped up its open data game in the last year.  Data sets
+like <a href="https://data.cityofnewyork.us/data?browseSearch=acris">ACRIS</a> (the city property records) and <a href="https://data.cityofnewyork.us/City-Government/Primary-Land-Use-Tax-Lot-Output-Map-MapPLUTO-/f888-ni5f">MapPLUTO</a> (GIS) that used to
+cost thousands of dollars are now free.  While it&rsquo;s in beta with limited
+access, the city now makes available its official geocoder, too.  This openness
+is drawing into harsh relief excctly how poor the quality of the city&rsquo;s
+collision statistics are.</p>
+
+<p>The NYPD has been releasing intersection-level collision reports every month
+since August 2011.  I&rsquo;ve been collecting and processing these reports from an
+obfuscated Excel (originally only PDF) format into <a href="http://nypd.openscrape.com/">machine-readable
+CSVs</a>.</p>
+
+<p>These reports are the basis for <a href="http://nyc.crashmapper.com/">NYC Crashmapper</a>, an interactive map of
+these collisions across the city.  Unfortunately, the actual releases do not
+include geographical information; they include only the borough, police
+precinct, and street intersection.  With some help from <a href="http://arcgis.com/apps/PublicGallery/index.html?appid=130c910362124107907482d762ff6a01&amp;group=1ab97dd0518e47e59e47686f479e241d">Tom Swanson</a>, most
+of these intersections were geocoded using ArcGIS, while new intersections
+appearing on the monthly report were batched through Google&rsquo;s public geocoder.</p>
+
+<p>This process yielded longitude and latitude for about 97% of the almost 44,000
+intersections with collisions on record for the last several years.  However,
+there were clearly problems with the data.  Sometimes Google would get it
+wrong, placing an intersection well outside the boundaries of New York, or
+simply place an intersection in the wrong police precinct.  Occasionally
+I would do cleanings to filter these out, but at heart Google&rsquo;s geocoder is
+something of a black box.  I knew some percentage of the intersections had the
+wrong longitude/latitude, but it was impossible to know precisely how many, or
+how wrong they were.</p>
+
+<p>While NYC&rsquo;s <a href="http://www.nyc.gov/html/dcp/html/bytes/applbyte.shtml#geocoding_application">own geocoder</a> has been floating around for a while, it was
+originally a Windows-only executable.  I messed around with it, but booting up
+a Virtualbox and clicking around in a GUI couldn&rsquo;t be easily integrated into
+an automated workflow.</p>
+
+<p>Now the same data is available, although it requires an app registration and
+delay (several days, for me), as the <a href="https://developer.cityofnewyork.us/api/geoclient-api-beta">Geoclient API</a>.  Six REST endpoints
+provide longitude and latitude, alongside a host of other info (city council
+districts, police precincts, etc.) as JSON based off of address, intersection,
+blockface, place name, BBL, or BIN input.  I wrapped the API in <a href="https://github.com/talos/nyc-geoclient">Python
+bindings</a> to make it a bit easier to work with.</p>
+
+<p>Upon receiving email confirmation from DoITT that my app had been approved to
+use the API, I ran through the 44,000 intersections.  There doesn&rsquo;t appear to
+be any kind of rate limiting, and the process went relatively quickly.  There&rsquo;s
+no batch feature at the moment, so each request must be made individually.</p>
+
+<table>
+  <tr><th></th>                                 <th># of intersections</th> <th>%</th></tr>
+  <tr><th>Successfully geocoded</th>            <td>36058</td>              <td>82.37</td></tr>
+  <tr><th><i>&#8221;&#8221;&#8221; (precinct match)</i></th>      <td><i>33700</i></td>       <td><i>76.99</i></td></tr>
+  <tr><th><i>&#8221;&#8221;&#8221; (precinct mismatch)</i></th>   <td><i>2358</i></td>        <td><i>5.39</i></td></tr>
+  <tr><th>Streets do not intersect</th>         <td>4139</td>               <td>9.46</td></tr>
+  <tr><th>Streets intersect twice</th>          <td>2651</td>               <td>6.06</td></tr>
+  <tr><th>Streets intersect more than twice</th><td>626</td>                <td>1.43</td></tr>
+  <tr><th>Invalid street name</th>              <td>149</td>                <td>0.34</td></tr>
+  <tr><th>Place name instead of street name, non-addressable</th><td>77</td><td>0.17</td></tr>
+  <tr><th>Misspelled street name</th>           <td>32</td>                 <td>0.07</td></tr>
+  <tr><th>One street name was &#8216;UNKNOWN&#8217;</th>    <td>21</td>                 <td>0.05</td></tr>
+  <tr><th>Place name instead of street name, addressable</th><td>19</td>    <td>0.04</td></tr>
+  <tr><th>Other (&#8220;not part of&#8221;)</th>            <td>2</td>                  <td>0.00</td></tr>
+</table>
+
+
+<p>The success rate was much less than the combined ArcGIS/Google approach: almost
+18% of the intersections could not be associated with lon/lats.  However, the
+Geoclient&rsquo;s error messages are great.  Instead of pulling the wrong lon/lat or
+nothing at all, it identifies exactly what&rsquo;s going wrong: in almost 1 in 10
+intersections in the reports, the identified streets <em>don&rsquo;t even intersect</em>.</p>
+
+<p>In many cases, this can be chalked up to a misspelling, generally a missed
+prefix or switched up Avenue, Street, or Place &mdash; for example, the intersection
+of 32 Street and Flatbush Ave in Brooklyn.  Clearly East 32 Street must have
+been intended.  In many other cases, the information must simply be wrong.  One
+intersection, of Ocean Parkway and Seton Place in Brooklyn, is merely
+impossible.</p>
+
+<p>The &ldquo;streets intersect twice&rdquo; phenomenon is interesting, and even approximately
+solvable.  This happens in cases like the <a href="https://www.google.com/maps/preview/place/Neptune+Ave+%26+Brighton+3rd+St,+Brooklyn,+NY+11235/@40.5807057,-73.9650921,17z/data=!4m2!3m1!1s0x89c24444753fe54d:0xc02ed3f455d9a605">intersection of Brighton 3 Street
+and Neptune Avenue</a> in Brooklyn, where the cross street jogs
+a short distance.  It&rsquo;s possible to ask the geocoder for the more northerly or
+southerly intersection, however, the NYPD data is still ambiguous as to which
+was closer.</p>
+
+<p class="center"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3030.2287594726517!2d-73.9650921!3d40.5807057!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24444753fe54d%3A0xc02ed3f455d9a605!2sNeptune+Ave+%26+Brighton+3rd+St%2C+Brooklyn%2C+NY+11235!5e0!3m2!1sen!2sus!4v1391291435007" width="400" height="300" frameborder="0" style="border:0"></iframe></p>
+
+
+<p>The last significant chunk of missed geocoding is because of intersections
+&ldquo;more than twice&rdquo;.  This can happen in intersections like <a href="https://www.google.com/maps/preview/place/Kings+Hwy+%26+Avenue+K,+Brooklyn,+NY/@40.6257719,-73.9331992,18z/data=!4m2!3m1!1s0x89c24355b603e4cf:0xc31b80b14b1a7c1b">Avenue K and King&rsquo;s
+Highway</a> where the layout of one of the streets results in
+multiple crossings.</p>
+
+<p class="center"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1514.0931806910887!2d-73.9331992!3d40.6257719!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24355b603e4cf%3A0xc31b80b14b1a7c1b!2sKings+Hwy+%26+Avenue+K%2C+Brooklyn%2C+NY!5e0!3m2!1sen!2sus!4v1391292147906" width="400" height="300" frameborder="0" style="border:0"></iframe></p>
+
+
+<p>There were an additional slightly more than 5% of intersections that were
+geocoded, but whose police precincts did not match.  Since this is all
+intersection-level data, this is to be expected in some cases: intersections
+can skirt precinct boundaries, and in such cases it would be unclear which
+precinct the &ldquo;real&rdquo; report would come from.  However, there were odd cases
+where the NYPD filed an intersection under the wrong precinct, for example,
+filing the <a href="https://www.google.com/maps/preview/place/Ocean+Pkwy+%26+Avenue+V,+Brooklyn,+NY+11223/@40.5957238,-73.9650048,17z/data=!3m1!4b1!4m2!3m1!1s0x89c244f5dc18ba85:0xcae280f4057393a3">intersection of Avenue V and Ocean Parkway</a> in
+Brooklyn in the 60, instead of the 61 precinct where it actually is.</p>
+
+<p class="center"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3029.5483480885487!2d-73.9650048!3d40.5957238!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c244f5dc18ba85%3A0xcae280f4057393a3!2sOcean+Pkwy+%26+Avenue+V%2C+Brooklyn%2C+NY+11223!5e0!3m2!1sen!2sus!4v1391272537346" width="400" height="300" frameborder="0" style="border:0"></iframe></p>
+
+
+<p>Even if the data quality on the existing reports were perfect, the information
+would be hobbled by the identification by intersection.  The data is assembled
+from the state&rsquo;s <a href="http://www.dmv.ny.gov/forms/mv104.pdf">MV-104</a> forms, which do not have to specify a location more
+precisely than an intersection.  Officers fill out these forms on-site, and any
+mistakes or inaccuracies on the form will be entered into the database, without
+any sort of further checking.</p>
+
+<p>Google was far more liberal dispensing coordinates.  Its geocoder was able to
+provide coordinates for the vast majority of the intersections Geoclient
+couldn&rsquo;t, however these coordinates are very suspect.</p>
+
+<table>
+  <tr><th></th>                   <th># of intersections</th><th>%</th>
+  <tr><th>Geocoded in both</th>   <td>36055</td>             <td>82.37%</td>
+  <tr><th><i>&#8221;&#8221;&#8221; (&gt; 0.01 lat/lon difference)</i></th><td><i>180</i></td><td><i>0.41%</i></td>
+  <tr><th><i>&#8221;&#8221;&#8221; (&lt; 0.01, &gt;0.0003 lat/lon difference)</i></th><td><i>378</i></td><td><i>0.86%</i></td>
+  <tr><th>Google only</th>        <td>6490</td>              <td>14.83%</td>
+  <tr><th>Geoclient only</th>     <td>3</td>                 <td>0.00%</td>
+  <tr><th>Neither</th>            <td>1226</td>              <td>2.80%</td>
+</table>
+
+
+<p>In cases where both geocoders captured a lon/lat but there was a significant
+difference, the NYC geocoder was superior.  For example, it was able to capture
+the <a href="https://www.google.com/maps/preview/place/NYU+Med+Center:+Hilz+Max+J+MD/@40.7394131,-73.9764686,18z/data=!4m7!1m4!3m3!1s0x89c2598378c717a7:0x266d24f6c67a6b6d!2s27+1st+Ave,+New+York,+NY+10003!3b1!3m1!1s0x0:0x649aab3e087f8735">intersection of East 27 St and 1 Avenue</a> in Manhattan.  Google was
+unable to understand that East 27 St continues even though it is closed off to
+cars, and erroneously identified the intersection of East 2 St and 1 Ave.</p>
+
+<p class="center"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1511.5139148409382!2d-73.97646857235236!3d40.73941314916777!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x649aab3e087f8735!2sNYU+Med+Center%3A+Hilz+Max+J+MD!5e0!3m2!1sen!2sus!4v1391294585211" width="400" height="300" frameborder="0" style="border:0"></iframe></p>
+
+
+<p>Even fairly minute differences in longitude or latitude signal problems with
+the Google geocoding &mdash; for example, a difference as small as 0.0003 degree
+indicates that Google mixed up Beach Terrace and Oak Terrace on their
+<a href="https://www.google.com/maps/preview/place/%2B40%C2%B048'33.62%22,+-73%C2%B054'48.60%22/@40.80934,-73.9135,17z/data=!3m1!4b1!4m2!3m1!1s0x0:0x0">intersection across Beekman Ave</a> in the Bronx.</p>
+
+<p class="center"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1509.9293108982622!2d-73.9134544024479!3d40.80910044385041!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zKzQwwrA0OCczMy42MiIsIC03M8KwNTQnNDguNjAi!5e0!3m2!1sen!2sus!4v1391296500495" width="400" height="300" frameborder="0" style="border:0"></iframe></p>
+
+
+<p>While the Geoclient geocoder is not able to make clear statements about many of
+the intersections in the NYPD collision dataset, it does a far better job for
+those it identifies.  Those it cannot, which Google does, are ambiguous in the
+cases where the Geoclient&rsquo;s error was that there are multiple intersections
+(about 7.5%), and generally indicate an NYPD data entry error in the cases
+where Geoclient recognizes no intersection (almost 10%).</p>
+
+<p>What can be done now that it&rsquo;s so clear how problematic these reports are?</p>
+
+<ol>
+<li><p>The NYPD should be pressed to cooperate with DoITT to geocode intersections
+on the reports they file, and double check those that don&rsquo;t pass through the
+geocoder.  Even if the reports, being state mandated, can&rsquo;t be modified, the
+geocoder is the perfect tool to catch bad data at the time of entry.</p></li>
+<li><p>If the Geoclient API identifies a problem, the officer who entered
+problematic information should be asked to clarify.  The correction or
+comment would be entered into the monthly release.</p></li>
+<li><p>The NYPD could switch to a daily feed of MV-104 reports, and such
+a check could be worked directly into the filing process.</p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A YouTube CLI for Mac]]></title>
+    <link href="http://blog.johnkrauss.com/installing-youtube-viewer"/>
+    <updated>2013-07-29T00:00:00-04:00</updated>
+    <id>http://blog.johnkrauss.com/installing-youtube-viewer</id>
+    <content type="html"><![CDATA[<p>Out of laziness, I mostly listen to music off <a href="http://youtube.com">YouTube</a> these days.  As a
+library it&rsquo;s pretty unbeatable, and I don&rsquo;t have to worry about plugging in an
+external HDD with a big library.</p>
+
+<p>Using the browser for selecting songs is a drag, but I&rsquo;ve always used
+visual interfaces (originally iTunes, then a combination of <a href="https://videolan.org/vlc/">VLC</a> and
+<a href="http://download.cnet.com/Vox/3000-2139_4-145817.html#rateit">Vox</a>).  Also, Flash player munches on your battery pretty bad.  And
+I generally try to avoid executing anything with Flash.</p>
+
+<p>Turns out there&rsquo;s a CLI for YouTube, <a href="https://github.com/trizen/youtube-viewer">youtube-viewer</a> with vim-like
+keybindings no less!  Since it requires a newer version of Perl than what&rsquo;s
+bundled with OSX, you need to do a little work to get it running.</p>
+
+<h3>Perl 5.16.0</h3>
+
+<p>The Perl version bundled with OSX in <code>/usr/bin/perl</code> with Mac OSX 10.7.5, is
+5.12.3.  Considering Apple&rsquo;s tendency to let the CLI tools bundled with OSX
+rot, I doubt newer versions have a more up-to-date version.  It&rsquo;s entirely
+possible that some system-level functionality depends on an old version of
+Perl, so updating at the root level would be a Very Bad Idea.</p>
+
+<p>Fortunately, there&rsquo;s a <a href="http://learn.perl.org/installing/osx.html">good setup tool</a> available on <a href="http://learn.perl.org">learn.perl.org</a>:</p>
+
+<div>
+  <pre><code class='bash'>$ curl -L http://xrl.us/installperlosx | bash</code></pre>
+</div>
+
+
+<p>This will install 5.16.0 in <code>~/perl5/perlbrew</code> and add a line to your
+<code>.bashrc</code>, updating your env Perl version.</p>
+
+<h3>Mplayer</h3>
+
+<p>This one&rsquo;s easy.</p>
+
+<div>
+  <pre><code class='bash'>$ brew install mplayer</code></pre>
+</div>
+
+
+
+
+<br>
+
+
+<h3>youtube-viewer</h3>
+
+<p>Snag the source:</p>
+
+<div>
+  <pre><code class='bash'>$ git clone git@github.com:trizen/youtube-viewer.git</code></pre>
+</div>
+
+
+<p>Follow the instructions, but drop the last <code>sudo</code> &mdash; provided you make
+sure to execute <code>Build.PL</code> with your perlbrew (rather than system) Perl, then
+it will be installed in a user-specific directory.</p>
+
+<div>
+  <pre><code class='bash'>$ perl Build.PL
+    $ ./Build
+    $ ./Build test
+    $ ./Build install</code></pre>
+</div>
+
+
+
+
+<br>
+
+
+<h1>Usage</h1>
+
+<div>
+  <pre><code class='bash'>$ youtube-viewer
+    =&gt;&gt; Search for YouTube videos (:h for help)</code></pre>
+</div>
+
+
+<p>Or, if you don&rsquo;t want an MPlayer window popping up outside your Terminal while
+a video is playing:</p>
+
+<div>
+  <pre><code class='bash'>$ youtube-viewer -n
+    =&gt;&gt; Search for YouTube videos (:h for help)</code></pre>
+</div>
+
+
+<p>Enjoy!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Introducing NYC Crashmapper]]></title>
+    <link href="http://blog.johnkrauss.com/introducing-nyc-crashmapper"/>
+    <updated>2013-07-26T00:00:00-04:00</updated>
+    <id>http://blog.johnkrauss.com/introducing-nyc-crashmapper</id>
+    <content type="html"><![CDATA[<p>For over a year, I&rsquo;ve been archiving and processing the New York City Police
+Department&rsquo;s collision data on the <a href="http://nypd.openscrape.com/">Crash Data Band-Aid</a>.</p>
+
+<p>With some help from <a href="https://github.com/talos/nypd-crash-data-bandaid#credit">generous people</a>, all valid intersections have been
+geocoded in the past several months.  So now all the collision data, in addition
+to being free for download above, can be visualized and analyzed in your
+browser using <a href="http://nyc.crashmapper.com">Crashmapper</a>!</p>
+
+<p><a href="http://nyc.crashmapper.com"><img src="http://blog.johnkrauss.com/images/nyc-crashmapper.jpg" alt="NYC Crashmapper" /></a></p>
+
+<p>The project is free and open source, you can browse the code <a href="https://github.com/talos/nypd-crash-data-bandaid/">on Github</a>
+(it&rsquo;s in the <code>map</code> directory).</p>
+
+<p>Building the map&rsquo;s been fun.  There&rsquo;s no server-side app &mdash; it&rsquo;s just
+a static site on <a href="https://aws.amazon.com/s3/">S3</a> &mdash; and all data points for some 30K intersections
+over more than 24 months are loaded into your browser for fast analysis.  The
+base layers are from <a href="http://openstreetmap.org/">OSM</a>, and the mapping library is <a href="http://leafletjs.com/">Leaflet</a>.  I&rsquo;m
+using a slightly optimized <a href="https://github.com/talos/Leaflet.markercluster/tree/nonlocking-addlayers">fork</a> of the awesome <a href="https://github.com/Leaflet/Leaflet.markercluster">Leaflet.markercluster</a>
+plugin.  The &ldquo;heatmap&rdquo; is really a bunch of CSS drop shadows around marker
+clusters.  The real deep-link custom URLs are possible by setting the error
+page on S3 to <code>index.html</code>, so that all links are served up through the app&rsquo;s
+<a href="http://backbonejs.org/">Backbone</a> router.</p>
+
+<p>Crashmapper could be adapted to your town.  Contact me on the left if you&rsquo;re
+interested!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[New Google Maps Mutilates Bike Layer]]></title>
+    <link href="http://blog.johnkrauss.com/new-google-maps-mutilates-biking"/>
+    <updated>2013-07-12T00:00:00-04:00</updated>
+    <id>http://blog.johnkrauss.com/new-google-maps-mutilates-biking</id>
+    <content type="html"><![CDATA[<p><em><strong>Update 8/1</strong>: Google fixed it yesterday!  Thanks everyone who filed tickets
+with them, maybe it made a difference. :)</em></p>
+
+<p>Anyone who bikes in New York City and uses <a href="http://maps.google.com/">Google Maps</a> to look up their
+route is in for an unpleasant surprise.</p>
+
+<p>The new-look Google Maps totally mutilates NYC&rsquo;s previously excellent bicycle
+lane layer.  I wouldn&rsquo;t be surprised if it messed it up elsewhere.  Since the
+old Google Maps looks to be gone for good, the best that can be presented for
+comparison is <a href="http://www.openstreetmap.org/">OSM</a>&rsquo;s layer:</p>
+
+<p><img src="http://blog.johnkrauss.com/images/osm-brooklyn.png" alt="Brooklyn Bike paths in OSM" /></p>
+
+<p>Here&rsquo;s the new, messed up Google Maps:</p>
+
+<p><img src="http://blog.johnkrauss.com/images/gmaps-brooklyn.png" alt="Brooklyn bike paths in Google Maps" /></p>
+
+<p>Bergen and Dean St., major routes for bikers in northern Brooklyn going east
+or west, are gone, along with Flushing Ave.</p>
+
+<p>Manhattan didn&rsquo;t do any better:</p>
+
+<p><img src="http://blog.johnkrauss.com/images/gmaps-manhattan.png" alt="Manhattan bike paths in Google Maps" /></p>
+
+<p>First and Second Aves, which have miles of dedicated bike lanes separated from
+auto traffic, are unmarked.  It&rsquo;s the same for 8th and 9th Aves.   Google&rsquo;s
+negligence renders the island&rsquo;s respectable bike lane network invisible.
+Here&rsquo;s the reality:</p>
+
+<p><img src="http://blog.johnkrauss.com/images/osm-manhattan.png" alt="Manhattan bike paths in OSM" /></p>
+
+<p>A bike share system just rolled out here, and this is an awful time to make it
+hard for new, inexperienced bikers to figure out where  the safest routes are.
+The CitiBike app does have paths on it, but it&rsquo;s still more intuitive for
+many people to use tried-and-true Google Maps, especially if they&rsquo;re looking up
+a route on their computer beforehand.</p>
+
+<p>Google had this data before, and it&rsquo;s unclear why they shouldn&rsquo;t have it now.
+Here&rsquo;s to hoping they notice, actually care, and fix it quick.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[New NYC buildings less efficient]]></title>
+    <link href="http://blog.johnkrauss.com/newer-nyc-buildings-less-efficient"/>
+    <updated>2013-07-05T00:00:00-04:00</updated>
+    <id>http://blog.johnkrauss.com/newer-nyc-buildings-less-efficient</id>
+    <content type="html"><![CDATA[<p>Large buildings constructed in New York City since 1935 are by today&rsquo;s
+standards less energy efficient.</p>
+
+<script type="text/javascript"
+src="//ajax.googleapis.com/ajax/static/modules/gviz/1.0/chart.js">
+{"dataSourceUrl":"//docs.google.com/spreadsheet/tq?key=0ApIF6WU115ROdDk4bVpDUW90UDFPQ3QtV1I1SVYtU1E&transpose=0&headers=1&range=A1%3AB23&gid=5&pub=1","options":{"titleTextStyle":{"bold":true,"color":"#000","fontSize":16},"vAxes":[{"useFormatFromData":true,"title":"Score","minValue":40,"viewWindowMode":"explicit","logScale":false,"viewWindow":{"min":40,"max":80},"maxValue":80},{"title":"#
+of
+buildings","useFormatFromData":false,"formatOptions":{"source":"inline"},"minValue":0,"viewWindowMode":"explicit","format":"0.##","gridlines":{"color":"none"},"logScale":false,"viewWindow":{"min":0,"max":300},"maxValue":300}],"series":{"0":{"color":"#ff0000"},"1":{"errorBars":{"errorType":"none"}},"2":{"color":"none"}},"fontName":"Courier
+New","title":"Median \"Energy Star\" over year built,
+NYC","curveType":"function","booleanRole":"certainty","animation":{"duration":0},"legend":"top","lineWidth":2,"useFirstColumnAsDomain":true,"hAxis":{"useFormatFromData":true,"title":"Year
+Built (5-year
+blocks)","minValue":null,"viewWindow":{"min":null,"max":null},"maxValue":null},"width":600,"height":229},"state":{},"view":{},"isDefaultVisualization":true,"chartType":"LineChart","chartName":"Chart
+1"} </script>
+
+
+<p>Reading <a href="http://www.archdaily.com/396263/why-green-architecture-hardly-ever-deserves-the-name/">this article</a> from Metropolis Mag on what&rsquo;s wrong with green
+architecture, and <a href="http://www.usgbc.org/leed">LEED</a> certification in particular, I noticed references to
+New York City measuring energy efficiency for some famous buildings: the
+Chrysler Building, the new 7 World Trade Center, and the Seagram Building,
+amongst others.  Drawing from a <a href="http://www.nytimes.com/2012/12/25/science/earth/new-york-citys-effort-to-track-energy-efficiency-yields-some-surprises.html">Times article</a>, they observed that the newer
+buildings, even LEED certified ones, performed worse:</p>
+
+<blockquote><p>Among other reasons for this failing, the Times pointed to the widespread
+use of expansive curtain-wall glass assemblies and large, “deep-plan” designs
+that put most usable space far from exterior walls, forcing greater reliance on
+artificial light and ventilation systems.</p>
+
+<p><i><small>from <a href="http://www.archdaily.com/396263/why-green-architecture-hardly-ever-deserves-the-name/">archdaily.com</a></small></i></p></blockquote>
+
+<p>The Times and Metropolis mag stuck to anecdotal evidence, not looking beyond
+a few buildings.  Fortunately, the city put all the scores <a href="http://www.nyc.gov/html/gbee/html/plan/ll84_scores.shtml">online</a>.</p>
+
+<p>So it&rsquo;s easy to test: are buildings constructed since the advent of mid-century
+modern building techniques less energy efficient?</p>
+
+<p>Of 4000 reports, about 1600 recorded an actual &ldquo;Energy Star Score&rdquo;,</p>
+
+<blockquote><p>ENERGY STAR Score: A 1-to-100 percentile ranking for specified building
+types, as calculated by Portfolio Manager, with 100 being the best score and 50
+the median. It compares the energy performance of a building against the
+Commercial Buildings Energy Consumption Survey (CBECS), a national database,
+and independent industry surveys for that building type.  This rating is
+normalized for weather and building attributes in order to obtain a measure of
+efficiency.</p>
+
+<p><i><small>from <a href="http://www.nyc.gov/html/dof/downloads/pdf/12pdf/2012_data_disclosure.pdf">nyc.gov</a></small></i></p></blockquote>
+
+<p>1600 ain&rsquo;t a bad sample size.  And what buildings are on the sheet?</p>
+
+<blockquote><p>&hellip;all privately-owned properties with individual buildings over 50,000 square
+feet or with multiple buildings with a combined square footage over 100,000
+square feet&hellip;</p>
+
+<p><i><small>from <a href="http://www.nyc.gov/html/gbee/html/plan/ll84_scores.shtml">nyc.gov</a></small></i></p></blockquote>
+
+<p>Big office buildings.</p>
+
+<p>The essential context, &ldquo;When was this building built?&rdquo; was missing.  But there
+were <a href="http://nycprop.nyc.gov/nycproperty/nynav/jsp/selectbbl.jsp">BBL</a>s, the NYC property identification number.  Since the <a href="http://www.nyc.gov/html/dof/">Department
+of Finance</a> makes available BBL-indexed <a href="http://www.nyc.gov/html/dof/html/property/assessment.shtml">tax roll data</a> with when buildings
+were built, all&rsquo;s that had to be done was to download the tax roll, <a href="https://github.com/brianb/mdbtools">convert
+it</a> from MS Access format (fun!) and join it to the environmental ratings.</p>
+
+<p>Keeping the sample size respectable by looking in five-year-increments, the
+pattern is clear: large buildings constructed prior to 1935 do much
+better by today&rsquo;s energy efficiency standards than those constructed after.</p>
+
+<p>I&rsquo;m making the <a href="https://docs.google.com/file/d/0B5IF6WU115ROY1lJZzJ6bWRraE0/edit?usp=sharing">environmental data joined to year built</a> available as a CSV
+for anyone to play with.  Below is a chart including sample sizes, for the
+statistically curious.</p>
+
+<script type="text/javascript"
+src="//ajax.googleapis.com/ajax/static/modules/gviz/1.0/chart.js">
+{"dataSourceUrl":"//docs.google.com/spreadsheet/tq?key=0ApIF6WU115ROdDk4bVpDUW90UDFPQ3QtV1I1SVYtU1E&transpose=0&headers=1&range=A1%3AC23&gid=0&pub=1","options":{"vAxes":[{"useFormatFromData":true,"title":"Score","minValue":40,"viewWindowMode":"explicit","logScale":false,"viewWindow":{"min":40,"max":80},"maxValue":80},{"title":"#
+of
+buildings","useFormatFromData":false,"formatOptions":{"source":"none"},"minValue":0,"viewWindowMode":"pretty","gridlines":{"color":"none"},"logScale":false,"viewWindow":{"min":0,"max":300},"maxValue":300}],"titleTextStyle":{"bold":true,"color":"#000","fontSize":16},"series":{"0":{"color":"#cccccc","targetAxisIndex":1},"1":{"errorBars":{"errorType":"none"}},"2":{"color":"none"}},"fontName":"Courier
+New","booleanRole":"certainty","title":"Median \"Energy Star\" over year built,
+NYC","animation":{"duration":500},"legend":"top","useFirstColumnAsDomain":true,"hAxis":{"useFormatFromData":true,"title":"Year
+Built (5-year
+blocks)","minValue":null,"viewWindowMode":null,"viewWindow":null,"maxValue":null},"tooltip":{},"isStacked":false,"width":600,"height":229},"state":{},"view":{"columns":[{"calc":"stringify","type":"string","sourceColumn":0},1,2]},"isDefaultVisualization":true,"chartType":"ColumnChart","chartName":"Chart
+1"} </script>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Preparing a Mac laptop for your Grandma]]></title>
+    <link href="http://blog.johnkrauss.com/nonagenarian-laptop"/>
+    <updated>2013-05-26T00:00:00-04:00</updated>
+    <id>http://blog.johnkrauss.com/nonagenarian-laptop</id>
+    <content type="html"><![CDATA[<p>My grandma got a new laptop for Mother&rsquo;s Day.  She&rsquo;s in her nineties, and first
+started using a computer a few years ago.  Email, watching music on
+YouTube, and playing bridge online are now essential parts of her life.
+Her first computer was an old iBook, which still works fine, but the services
+she uses have rendered it unusable:</p>
+
+<h3>The pace of obsolecence on the Internet is unacceptable.</h3>
+
+<p>A huge number of websites use JavaScript for questionable bells and whistles,
+under the assumption everyone has a really fast JS interpreter.  A PowerPC
+running OSX 10.4 simply can&rsquo;t run it fast enough, and these sites don&rsquo;t degrade
+gracefully &mdash; they freeze up.</p>
+
+<p>Flash doesn&rsquo;t make this better.  Adobe simply gave up on this at a certain
+point, and <a href="http://www.floodgap.com/software/tenfourfox/">Ten Four Fox</a>, which
+was her only option after a certain point, didn&rsquo;t really properly support Flash
+either.  Losing YouTube was harsh for her, and I can&rsquo;t imagine why it was
+really necessary &mdash; when she first got the computer, it worked fine.</p>
+
+<p>The computer was fine, but the internet dropped support for her.  And in the
+most frustrating way: everything ran slower, broke in random and unexpected
+ways, and it was very hard to explain to her what was going on, why, or what to
+do about it.  Sadly, the only option was to get her a new computer.</p>
+
+<h3>Setting up a new Mac for an old person is an epic pain in the ass</h3>
+
+<p>It&rsquo;s probably not better on Windows or Linux distributions, and since she&rsquo;d
+learned on a Mac, that was the only practical option.  Fortunately the
+interface didn&rsquo;t change too drastically between 10.4 and 10.8, but the factory
+setup of the OS is piss poor for an old person.  Because either the guest
+account was active by default, or she (or someone else) accidentally activated
+it, I had the pleasure of setting her computer up to make it accessible to her
+several times.  So the steps got stuck in my head:</p>
+
+<ul>
+<li><p><strong>Disable the guest account.</strong>  Go to System Preferences, unlock
+your prefs, click on &ldquo;Guest User&rdquo;, and uncheck &ldquo;Allow Guests to log on to
+this computer&rdquo;.  Otherwise, it&rsquo;s possible to log on, set things up, save
+files, and set up bookmarks on Safari &mdash; and lose everything as soon as you
+log out.</p></li>
+<li><p><strong>Auto log in the correct account.</strong> In &ldquo;Security and Privacy&rdquo;, uncheck
+&ldquo;Require password for sleep and screen saver&rdquo;.  Uncheck &ldquo;Disable automatic
+login&rdquo;.  Select the proper user in &ldquo;Automatically log in as&rdquo;, enter their
+password, and press &ldquo;OK&rdquo;.  For bonus points, you could set up a separate
+non-admin account for them, although I didn&rsquo;t do this.</p></li>
+<li><p><strong>Allow apps only from the app store.</strong> I didn&rsquo;t do this, but I probably
+should have &mdash; she doesn&rsquo;t use any applications that aren&rsquo;t in-browser, so
+anything else is probably a security risk.</p></li>
+<li><p><strong>Make the cursor bigger.</strong> She could barely see the cursor on the new
+computer, partly because the screen resolution was much higher.  Go to
+&ldquo;Universal Access&rdquo;, then &ldquo;Mouse and Trackpad&rdquo;, and make the cursor bigger for
+comfort.</p></li>
+<li><p><strong>Make everything bigger.</strong> Her new laptop has the same size screen, but much
+higher resolution.  LCDs don&rsquo;t look great below their natural resolution, but
+for someone without great eyes, the slight blurriness is not noticeable at
+all &mdash; and it&rsquo;s the best way to make sure everything is bigger.  I cut her
+resolution from 1440 by 900 to 1024 by 640.  Go to &ldquo;Displays&rdquo;, then
+&ldquo;Display&rdquo;, and reduce the resolution.</p></li>
+<li><p><strong>Always make the screen as bright as possible.</strong>  Still in &ldquo;Displays&rdquo;,
+increase the brightness to maximum.  Uncheck &ldquo;Automatically adjust
+brightness&rdquo;.  Then, go to &ldquo;Energy Saver&rdquo;, then &ldquo;Battery&rdquo; and disable
+&ldquo;Slightly dim the display when using this power source&rdquo;.</p></li>
+<li><p><strong>Increase general contrast.</strong>  Go to &ldquo;Universal Access&rdquo;, then &ldquo;Seeing&rdquo;, and
+raise the &ldquo;Enhance contrast&rdquo; setting a bit underneath &ldquo;Display&rdquo; &mdash; a little
+bit goes a long way.</p></li>
+<li><p><strong>Make the cursor slower.</strong> By default, the cursor is pretty jumpy if you
+don&rsquo;t have very sure fingers &mdash; go to &ldquo;Trackpad&rdquo; and lower the tracking
+speed.</p></li>
+<li><p><strong>Turn off two-finger scrolling.</strong>  In &ldquo;Trackpad&rdquo;, uncheck everything under
+&ldquo;Scroll &amp; Zoom&rdquo;.</p></li>
+<li><p><strong>Turn off trackpad actions, especially fancy multi-touch actions.</strong>  In
+&ldquo;Trackpad&rdquo;, uncheck everything under &ldquo;Point &amp; Click&rdquo; and &ldquo;More Gestures&rdquo;.</p></li>
+<li><p><strong>Maximize and always show the Dock.</strong> Go to &ldquo;Dock&rdquo;.  Drag the &ldquo;Size&rdquo; slider
+to make it big as possible.  Uncheck &ldquo;Automatically hide and show the Dock&rdquo;.</p></li>
+<li><p><strong>Turn off Hot Corners, Exposé, and all the other shit that unexpectedly
+changes screen layout.</strong>  This is a big one, and can be extremely hard to
+explain over the phone when something goes wrong.  Go to &ldquo;Mission Control&rdquo;,
+and set all the &ldquo;Keyboard and Mouse Shortcuts&rdquo; to &ldquo;&ndash;&rdquo;.  Then click &ldquo;Hot
+Corners&hellip;&rdquo; and set all of them to &ldquo;&ndash;&rdquo;, too.</p></li>
+<li><p><strong>Remove unnecessary crap from the Dock.</strong>  The only app my grandma uses is
+Safari, really.  Sometimes on the phone it&rsquo;s helpful to have her go to System
+Preferences.  I removed everything from the dock excepting those two things,
+which also made the Dock bigger, and easier for to click on Safari.</p></li>
+<li><p><strong>Remove unnecessary crap from the menu bar.</strong>  By default, Bluetooth and
+Time Machine are in the menu bar, and are useless and possibly confusing.
+Since she doesn&rsquo;t store any files on the computer, Time Machine is entirely
+unnecessary.  Go to their respective preference panes and remove them.</p></li>
+<li><p><strong>Always show scroll bars.</strong>  Personally, I hate Apple&rsquo;s move towards hiding
+scrollbars unless you maneuver the mouse to that tiny space on the edge of
+a window you need to scroll.  And it sucks really, really hard for someone
+has trouble with slight trackpad movements.  Go to &ldquo;General&rdquo; in &ldquo;System
+Preferences&rdquo;, and select &ldquo;Always&rdquo; under &ldquo;Show scroll bars&rdquo;.  While you&rsquo;re
+there, you may as well change sidebar icon size to &ldquo;Large&rdquo;.</p></li>
+<li><p><strong>Make fonts bigger in Safari.</strong>  I set her up with Safari just because it&rsquo;s
+bundled with the OS and is the most straightforward, although surely Firefox
+and Chrome have similar options.  Go to &ldquo;Preferences&rdquo;, then &ldquo;Advanced&rdquo;, then
+check off &ldquo;Never use font sizes smaller than&rdquo;.  I set hers to 16, although
+this would be a little risky for someone who browses more random sites (her
+repertoire is pretty set.) Some sites are nigh-on unusable when you futz with
+their formatting that much.  Probably 12 is safe.</p></li>
+<li><p><strong>Make the Safari homepage something useful.</strong>  Go to &ldquo;Preferences&rdquo; in
+Safari, then set both &ldquo;New windows open with&rdquo; and &ldquo;New tabs open with&rdquo; to
+&ldquo;Homepage&rdquo;.  Then set the homepage to Google, or something else that&rsquo;s not
+apple.com.</p></li>
+<li><p><strong>Log into all the services.  Make sure they stay logged in.</strong>  I logged her
+into Gmail, and checked off the option to keep her logged in.</p></li>
+<li><p><strong>Remove stupid bookmarks.</strong>  By default, Safari is loaded with a bunch of
+bookmarks she didn&rsquo;t need.  She doesn&rsquo;t use Facebook or Twitter.  She doesn&rsquo;t
+use iCloud.  I have no idea who uses the &ldquo;News&rdquo; or &ldquo;Popular&rdquo; folders.  I got
+rid of them all.</p></li>
+</ul>
+
+
+<h3>Some stuff just sucks and you can&rsquo;t fix it</h3>
+
+<p>The Adobe Flash updater is really confusing, requires multiple clicks just to
+upgrade, it doesn&rsquo;t explain what it does or why it needs to run.  It&rsquo;s
+extremely difficult to explain to someone without a pretty solid comfort with
+computers what the hell is going on when it keeps popping dialog boxes in front
+of them.  But keeping Flash up to date is important, and necessary for yotube
+Hopefully Flash will die soon and this can finally be done away with.</p>
+
+<p>The Notification Center menu item, and App Store stuff in general, is new
+and unnecessary for her in 10.8.  Apple&rsquo;s doesn&rsquo;t let you remove it.  That
+sucks, but it&rsquo;s something that hopefully won&rsquo;t cause any problems.</p>
+
+<p>iCloud is a pain in the ass in a similar way.  I wasn&rsquo;t sure exactly how it was
+happening, but my Grandma kept asking me questions about iCloud that make me
+think it randomly pops up stuff asking her to set it up.  Since it didn&rsquo;t
+happen when I was there though, I couldn&rsquo;t be sure how to make it shut up.</p>
+
+<h3>In conclusion</h3>
+
+<p>It&rsquo;s nuts that to make a new laptop relatively unthreatening and accessible for
+an enthusiastic 90-something requires going across a dozen System Preferences
+panes and sub-panes, and simply having to accept certain things as inevitably
+confusing.  I don&rsquo;t know what the solution is, and it may not be possible to
+make the set up something that my grandma itself could do, but the steps above
+took nearly an hour to figure out (and a good 20 minutes to reproduce.)</p>
+
+<p>Furthermore, most of the internet is a usability nightmare for the elderly.
+Tasks like clicking on a form field to fill it out, seeing that a white menu
+drop down on a white menu is, in fact, a drop-down, or navigating to a &ldquo;Log in&rdquo;
+button can become idiotically arduous tasks.  The fad for hiding controls when
+you&rsquo;re not using them (looking at you, scroll bars) is particularly
+frustrating.  Controls themselves are often tiny, with no clear way to make
+them bigger &mdash; YouTube is particularly bad with this.</p>
+
+<p>Setting up this laptop several times, and seeing her struggle through the
+usability nightmare that is most of the internet, made me think about how
+little account I take of usability in my own designs.  It&rsquo;s hard &mdash; without
+seeing someone actually work through these problems, the choke points aren&rsquo;t
+obvious.  In all honesty, I don&rsquo;t think it&rsquo;s practical for web designers to do
+so: the expense is too great and the impact is small.  The makers of OSs and
+browsers are in a far better position to make using the internet more
+manageable for the elderly.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JS-Free Live Chat]]></title>
+    <link href="http://blog.johnkrauss.com/html-only-live-chat-No-JS"/>
+    <updated>2012-02-28T00:00:00-05:00</updated>
+    <id>http://blog.johnkrauss.com/html-only-live-chat-No-JS</id>
+    <content type="html"><![CDATA[<p>I built a <a href="http://www.nodotjs.com/">real-time web-based chat</a> without a line of client-side code.  No
+JavaScript, no Flash, no (ew) Java applet.  100% HTML.  It even works in
+<a href="http://en.wikipedia.org/wiki/Internet_Explorer_4">Internet Explorer 4</a>, emulated with <a href="http://sheepshaver.cebix.net/">SheepShaver</a>.</p>
+
+<p><a href="https://github.com/talos/no.js/raw/master/assets/img/ie4.png" target="_blank">
+  <img src="https://github.com/talos/no.js/raw/master/assets/img/ie4-thumb.png" width="640" height="311" />
+</a></p>
+
+<p>Because I remember the canonical <a href="http://www.nodejs.org/">node.js</a> example being a chat server, I
+had to call it <a href="http://www.nodotjs.com/">No.JS</a> (no-dot-JS, got it? Haha. Sorry.)</p>
+
+<p><img src="https://github.com/talos/no.js/raw/master/assets/img/logo.gif" alt="No (dot) JS" /></p>
+
+<p>To be fair, the backend could have been built in JavaScript using Node, instead
+of Python using <a href="http://www.brubeck.io/">Brubeck</a>.  It would make for the dandy perversity of having
+exclusively server-side JavaScript.</p>
+
+<p>All the code for it is <a href="http://www.github.com/talos/no.js">on GitHub</a>, so all you Node-hackers should go ahead
+and build a JavaScript edition&hellip;</p>
+
+<hr />
+
+<p>Why&rsquo;d I do this, and how does it work?</p>
+
+<p>I&rsquo;m building a real-time browser-based multiplayer game, using the same
+templates (<a href="http://mustache.github.com/">Mustache</a>) on the client and server-side.  Instead of messing
+around with WebSockets, I used AJAX long polling to push updates from the
+server to the client.  Since the server could render all the views, I set up a
+little <code>Accept</code> header goodness so that browsers with JavaScript turned off
+could still play&hellip; but the problem of pushing the state remained.</p>
+
+<p>There is the peculiarly irritating <code>&lt;meta http-equiv="refresh" ...&gt;</code> tag,
+embedded in my consciousness from some late-90s &ldquo;dynamic&rdquo; interfaces.  Every
+few seconds, the page would flash to refresh with possibly new content.
+Maddeningly, you would be thrown back to the top of an identical (or very
+slightly modified) page.</p>
+
+<p>Throwing the meta refresh inside a <code>&lt;noscript /&gt;</code> would make the game kind-of
+work, while not irritating the majority of JavaScript-enabled users.
+The refresh still wouldn&rsquo;t be live, though. And the more frequent it was,
+the more irritating it would be.</p>
+
+<p>So why not just long-poll the whole page?</p>
+
+<p>Browsers wait for a response before wiping the contents of a window.  The prior
+page works the same while a new page is loading.  The server can dictate
+exactly when the page should reload.</p>
+
+<p>The stakes are higher than when long polling an AJAX request.  If the server
+doesn&rsquo;t get back to the client with a response eventually, the browser doesn&rsquo;t
+merely log to the error console &mdash; it replaces the page with a message that
+the server is down.  Responding with identical content at least twice a minute
+prevents this.</p>
+
+<p>To put it all together, the Mustache template would look like this in the
+header:</p>
+
+<pre>
+&lt;!-- Only fuss with this for those without JavaScript. --&gt;
+&lt;noscript&gt;
+    &lt;!-- The content of the refresh header is generated by the handler. --&gt; 
+    &lt;meta http-equiv="refresh" content=&#123;&#123;refresh&#125;&#125; /&gt;
+&lt;/noscript&gt;
+</pre>
+
+
+<p>And this in the body:</p>
+
+<pre>
+&#123;&#123;#content&#125;&#125;
+    &lt;!-- Exciting rapidly changing content! --&gt; 
+&#123;&#123;/content&#125;&#125;
+</pre>
+
+
+<p>The function to generate content, using <a href="http://www.redis.io/">Redis</a>, would look like:</p>
+
+<div>
+  <pre><code class='python'>def get_page_content(old_id):
+    # If an old ID was specified, and it&#39;s equal to the current ID,
+    # subscribe to updates on the &#39;updates&#39; channel of our Redis database.
+    # Then listen for an update.  Whatever triggers the update should also
+    # modify the ID.
+    if old_id and old_id == db.get(&#39;id&#39;):
+        pubsub = db.pubsub()
+        pubsub.subscribe(&#39;updates&#39;)
+        pubsub.listen().next() 
+    return {
+        # Populate the refresh header in the template with the new
+        # ID.  The `0;` means that the browser will immediately
+        # try to reload the page -- but will hang, because the
+        # reload is for the new ID. 
+        &#39;refresh&#39;: &quot;0; url=?id=%s&quot; % db.get(&#39;id&#39;),
+        # This would be a separate function, but you get the point.
+        &#39;content&#39;: json.loads(db.get(&#39;content&#39;)) 
+    }</code></pre>
+</div>
+
+
+<p>The handler, using <a href="http://www.brubeck.io/">Brubeck</a> with <a href="http://www.gevent.org/">gevent</a>, would look like:</p>
+
+<div>
+  <pre><code class='python'>class PageHandler(MustacheRendering):
+
+    # The route is specified elsewhere, but this method will be called
+    # when there is a vanilla HTTP GET for the page.
+    def get(self):
+        # Pull out the last loaded page ID.  Will be `None` if none was
+        # specified.
+        old_id = self.get_argument(&#39;id&#39;)
+        try:
+            # See `get_page_content` above.
+            context = gevent.timeout.with_timeout(30, get_page_content, old_id)
+            return self.render_template(&#39;page&#39;, **context)
+        except gevent.timeout.Timeout:
+            # The timeout above was for thirty seconds.  If nothing changes
+            # after that time, the client is simply redirected back to the
+            # original page with no ID argument at all.  This will cause
+            # an immediate reload.
+            #
+            # We do this instead of redirecting to `&quot;?id=%s&quot; % old_id` 
+            # because that would cause another hang, and possibly another
+            # 3xx response if we hit this timeout again.  If nothing
+            # changes for a few minutes, which is likely, then the repeated
+            # redirects would wipe the page with a `too many redirects`
+            # error.  This avoids that eventuality. :)
+            return self.redirect(&#39;?&#39;)</code></pre>
+</div>
+
+
+<p>Neato!</p>
+
+<p>No.JS is pulled from the game&rsquo;s chat component.  Chat is tricky, because a
+refresh wipes forms.  You&rsquo;re typing, someone says something&hellip; and everything
+you were about to say goes to the bitbucket.  Keeping the chat messages inside
+an <code>&lt;iframe /&gt;</code> solves this problem.  I switched it out for a regular frame
+in No.JS to support older browsers.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NYPD crash data band-aid]]></title>
+    <link href="http://blog.johnkrauss.com/nypd-crash-data-band-aid"/>
+    <updated>2012-02-16T00:00:00-05:00</updated>
+    <id>http://blog.johnkrauss.com/nypd-crash-data-band-aid</id>
+    <content type="html"><![CDATA[<p>Yesterday, <a href="http://www.streetsblog.org/2012/02/15/nypds-lax-crash-investigations-may-violate-state-law">Streetsblog</a> wrote about the previous day&rsquo;s New York
+City Council hearing on traffic safety.  There have been several
+particularly gruesome incidents in the past year where New York
+drivers maimed and killed pedestrians and cyclists.  The New York City
+Police Department has not only barely investigated the crime scenes,
+but it has been incredibly callous towards the victims, their
+families, and the press.</p>
+
+<p><a href="http://www.streetsblog.org/2012/02/15/nypds-lax-crash-investigations-may-violate-state-law">This part</a> stuck out to me:</p>
+
+<blockquote><p>Council Member Jessica Lappin got into an animated discussion with
+Petito over traffic crash data. When Lappin asked why NYPD is
+releasing data in PDF form — and only after the council adopted
+legislation forcing the department to do so — Petito replied that the
+department is &ldquo;concerned with the integrity of the data itself.&rdquo;
+Petito said NYPD believes data released on a spreadsheet could be
+manipulated by people who want &ldquo;to make a point of some sort.&rdquo; An
+incredulous Lappin assured Petito that the public only wants to
+analyze the data to improve safety, not use it for &ldquo;evil.&rdquo;</p></blockquote>
+
+<p>I already knew that they were finally releasing &mdash; after the Council
+forced them to &mdash; crash data as <a href="http://www.nyc.gov/html/nypd/html/traffic_reports/motor_vehicle_accident_data.shtml">idiotically obfuscated PDFs</a>, but
+reading that they justified this out of concern for &ldquo;the integrity of
+the data,&rdquo; was so galling that it goaded me into action. I would make the
+data accessible as friendly, <a href="http://nypd.openscrape.com/">parseable CSVs</a>.</p>
+
+<p>After all, isn&rsquo;t the purpose of data to &ldquo;make a point of some sort&rdquo;?</p>
+
+<p>Since I am hosting copies of their data in a format (spreadsheets, oh
+my!) amenable to the forces of evil on my server, I recommend that you
+download the code to roll your own NYPD traffic crash CSVs:</p>
+
+<pre><code>git clone https://github.com/talos/nypd-crash-data-bandaid.git
+</code></pre>
+
+<p>Once you&rsquo;ve got it, run the shell script:</p>
+
+<pre><code>cd nypd-crash-data-bandaid/
+./download.sh
+</code></pre>
+
+<p>You&rsquo;ll need python, <a href="http://www.foolabs.com/xpdf/">xpdf</a>, and wget.  Full instructions are in the
+readme on <a href="http://www.github.com/talos/nypd-crash-data-bandaid">Github</a>.</p>
+
+<p>The NYPD replaces the previous month&rsquo;s files every month.  Thus I&rsquo;ve
+included a sample crontab, which checks the site for a new PDFs every
+day.  Of course, they don&rsquo;t rename the files, which means that it&rsquo;s
+necessary to download one and do the PDF conversion merely to
+ascertain what month it applies to.  Incredible.</p>
+
+<p>There&rsquo;s an extra script, rss.py, which makes it easy to generate RSS feeds for when the NYPD has updated their data.  You can see it in action <a href="http://nypd.openscrape.com/feed.xml">here</a>.</p>
+
+<p>I&rsquo;d like to thank David Turner for writing the <a href="http://novalis.org/programs/scrapeintersections.txt">original</a> NYPD crash
+data PDF->text converter, which was only linked to in an article from
+a <a href="http://www.streetsblog.org/2011/10/14/nypd-goes-out-of-its-way-to-obscure-street-safety-data/">few months back</a>.  I had to modify the output to reflect the
+multidimensionality of the vehicle types and accident categories in a
+flat file, but the parser itself was golden.  I&rsquo;d also like to thank
+Matthew Kime, who came up with the band-aid idea for the name.</p>
+
+<p>Now we just need someone to compare this to the NYS Department of
+Transportation&rsquo;s crash data as visualized through Transportation
+Alternatives&#8217; <a href="http://crashstat.org/">CrashStat</a>, which only runs up 2009.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Long Reach of Industry Research]]></title>
+    <link href="http://blog.johnkrauss.com/2.2-million-jobs"/>
+    <updated>2012-01-20T00:00:00-05:00</updated>
+    <id>http://blog.johnkrauss.com/2.2-million-jobs</id>
+    <content type="html"><![CDATA[<p>PIPA is, for the moment, dead in the water.  Reid is not going to vote
+on cloture.  His <a href="http://democrats.senate.gov/2012/01/20/reid-statement-on-intellectual-property-bill/">statement</a> reads, in part:</p>
+
+<blockquote><p>&hellip;Counterfeiting and piracy cost the American economy billions of
+dollars and thousands of jobs each year, with the movie industry
+alone supporting over 2.2 million jobs&hellip;</p></blockquote>
+
+<p>The part about &ldquo;supporting 2.2 million jobs&rdquo; looked familiar.  Last
+night, I checked out <a href="http://mpaa.org/">mpaa.org</a> when I heard that anonymous had
+knocked it down.  It was already back up, and displayed prominently on
+the main page was the same &ldquo;supporting 2.2 million jobs&rdquo; claim.  In
+<a href="http://mpaa.org/policy">more detail</a>:</p>
+
+<blockquote><p>We support a national community of 2.2 million workers — costume
+designers to make-up artists, stuntmen to set builders, writers to
+actors, accountants to dry cleaners — employed in all 50 states of
+our union.</p></blockquote>
+
+<p>Their <a href="http://www.mpaa.org/Resources/3a76ac00-6940-4012-a6e2-da9a7b036da2.pdf">PDF fact sheet</a> breaks things down a little more:</p>
+
+<blockquote><p>The industry is a major private sector employer, supporting 2.2 million jobs, and nearly $137 billion in
+total wages in 2009:</p>
+
+<ul>
+<li><p>Direct industry jobs generated $40.5 billion in wages, and an average salary 26% higher than the
+national average:</p>
+
+<ul>
+<li>There were nearly 272,000 jobs in the core business of producing, marketing,
+manufacturing, and distributing motion pictures and television shows.  These are high
+quality jobs, with an average salary of nearly $79,000, 73% higher than the average salary
+nationwide.</li>
+<li>Additionally, there were over 430,000 jobs in related businesses that distribute motion
+pictures and television shows to consumers.</li>
+</ul>
+</li>
+<li>Industry also supports indirect jobs and wages in thousands of companies with which it does
+business, such as caterers, dry cleaners, florists, hardware and lumber suppliers, and jobs in other
+companies doing business with consumers, such as video retailers, theme parks and tourist
+attractions</li>
+</ul>
+</blockquote>
+
+<p>OK, so &ldquo;support&rdquo; means &ldquo;do business with.&rdquo;  Fair enough, and by that
+metric I alone supported hundreds of grocers, bartenders, video
+retailers, laundromats, chefs, musicians, etc. in 2009.  It is a far
+cry from the enumerated make-up artists, stuntmen, set builders,
+writers, and actors.  Reid&rsquo;s phrase, &ldquo;the movie industry alone,&rdquo; is
+similarly deceptive.</p>
+
+<p>Most of those 2.2 million workers are the dry cleaners.  And I think
+that very few of them would lose their jobs if the movie industry
+simply ceased to exist, which is not what is at stake.</p>
+
+<p>Ironically, I see no reason why those &ldquo;430,000 jobs in related
+businesses&rdquo; couldn&rsquo;t be jobs with companies involved in the piracy of
+movies, or, more reasonably, companies who would be fucked by the
+consequences of legislation like PIPA.</p>
+
+<p>What is most irksome is that Reid is happy to parrot a misleading
+factoid <em>directly</em> from the MPAA&rsquo;s website, when the government spends
+several billion dollars a year on the <a href="http://en.wikipedia.org/wiki/United_States_Census_Bureau">Census Bureau</a>.  Which does
+its own <a href="http://www.census.gov/econ/census07/">Economic Census</a> every five years, and keeps other tabs annually.</p>
+
+<p>So what information cost several billions of dollars for Reid to blow
+off in favor of his donors?  I looked up employment by
+<a href="http://www.census.gov/epcd/naics02/def/ND512110.HTM">NAICS category</a>, which is 512110 for &ldquo;Motion Picture and Video
+Production&rdquo;.</p>
+
+<p>There were 146,539 &ldquo;Paid employees for pay period including March 12
+(number)&rdquo; in 2009.  <a href="http://factfinder2.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=BP_2009_00A1&amp;prodType=table">Check it out</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

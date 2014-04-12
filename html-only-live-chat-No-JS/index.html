@@ -1,0 +1,335 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>JS-Free Live Chat — Accursed Ware</title>
+  <meta name="author" content="John Krauss"/>
+
+  
+  <meta name="description" content="Foo bar baz."/>
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  
+  <link rel="canonical" href="http://blog.johnkrauss.com/html-only-live-chat-No-JS"/>
+  <link href="/favicon.png" rel="icon"/>
+  <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css"/>
+  <link href="/atom.xml" rel="alternate" title="Accursed Ware" type="application/atom+xml"/>
+  <script src="//cdn.jsdelivr.net/jquery/1.11/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.min.js"><\/script>')</script>
+  
+  <script type="text/javascript" src="//use.typekit.net/ijs2xpi.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+  
+  
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-20153319-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body >
+  
+  <header role="banner" class="hidden">
+  <h1><a href="/">Accursed Ware</a></h1>
+
+
+
+</header>
+  
+  <nav class="navbar navbar-static-top" role="navigation"><div class="nav-collapse collapse">
+<ul class="nav subscription pull-right" data-subscription="rss">
+  <li><a href="/atom.xml" rel="alternate" data-type="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form class="navbar-search pull-right" action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="blog.johnkrauss.com" />
+    <input type="hidden" name="q" value="site:blog.johnkrauss.com" />
+    <input class="search search-query" type="text" id="q" name="q"
+      placeholder="Search"
+       />
+  </fieldset>
+  
+</form>
+  
+</div>
+<ul class="nav main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="content" class="container">
+    <article class="hentry span10 offset1" role="article">
+  
+  <header>
+    
+      
+        
+          
+        
+      
+      
+      <h1 class="entry-title">JS-Free Live Chat</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2012-02-28T00:00:00-05:00" data-updated="true">Feb 28<span>th</span>, 2012</time>
+      </p>
+    
+  </header>
+
+
+<div class="entry-content lettrine"><p>I built a <a href="http://www.nodotjs.com/">real-time web-based chat</a> without a line of client-side code.  No
+JavaScript, no Flash, no (ew) Java applet.  100% HTML.  It even works in
+<a href="http://en.wikipedia.org/wiki/Internet_Explorer_4">Internet Explorer 4</a>, emulated with <a href="http://sheepshaver.cebix.net/">SheepShaver</a>.</p>
+
+<p><a href="https://github.com/talos/no.js/raw/master/assets/img/ie4.png" target="_blank">
+  <img src="https://github.com/talos/no.js/raw/master/assets/img/ie4-thumb.png" width="640" height="311" />
+</a></p>
+
+<p>Because I remember the canonical <a href="http://www.nodejs.org/">node.js</a> example being a chat server, I
+had to call it <a href="http://www.nodotjs.com/">No.JS</a> (no-dot-JS, got it? Haha. Sorry.)</p>
+
+<p><img src="https://github.com/talos/no.js/raw/master/assets/img/logo.gif" alt="No (dot) JS" /></p>
+
+<p>To be fair, the backend could have been built in JavaScript using Node, instead
+of Python using <a href="http://www.brubeck.io/">Brubeck</a>.  It would make for the dandy perversity of having
+exclusively server-side JavaScript.</p>
+
+<p>All the code for it is <a href="http://www.github.com/talos/no.js">on GitHub</a>, so all you Node-hackers should go ahead
+and build a JavaScript edition&hellip;</p>
+
+<hr />
+
+<p>Why&rsquo;d I do this, and how does it work?</p>
+
+<p>I&rsquo;m building a real-time browser-based multiplayer game, using the same
+templates (<a href="http://mustache.github.com/">Mustache</a>) on the client and server-side.  Instead of messing
+around with WebSockets, I used AJAX long polling to push updates from the
+server to the client.  Since the server could render all the views, I set up a
+little <code>Accept</code> header goodness so that browsers with JavaScript turned off
+could still play&hellip; but the problem of pushing the state remained.</p>
+
+<p>There is the peculiarly irritating <code>&lt;meta http-equiv="refresh" ...&gt;</code> tag,
+embedded in my consciousness from some late-90s &ldquo;dynamic&rdquo; interfaces.  Every
+few seconds, the page would flash to refresh with possibly new content.
+Maddeningly, you would be thrown back to the top of an identical (or very
+slightly modified) page.</p>
+
+<p>Throwing the meta refresh inside a <code>&lt;noscript /&gt;</code> would make the game kind-of
+work, while not irritating the majority of JavaScript-enabled users.
+The refresh still wouldn&rsquo;t be live, though. And the more frequent it was,
+the more irritating it would be.</p>
+
+<p>So why not just long-poll the whole page?</p>
+
+<p>Browsers wait for a response before wiping the contents of a window.  The prior
+page works the same while a new page is loading.  The server can dictate
+exactly when the page should reload.</p>
+
+<p>The stakes are higher than when long polling an AJAX request.  If the server
+doesn&rsquo;t get back to the client with a response eventually, the browser doesn&rsquo;t
+merely log to the error console &mdash; it replaces the page with a message that
+the server is down.  Responding with identical content at least twice a minute
+prevents this.</p>
+
+<p>To put it all together, the Mustache template would look like this in the
+header:</p>
+
+<pre>
+&lt;!-- Only fuss with this for those without JavaScript. --&gt;
+&lt;noscript&gt;
+    &lt;!-- The content of the refresh header is generated by the handler. --&gt; 
+    &lt;meta http-equiv="refresh" content=&#123;&#123;refresh&#125;&#125; /&gt;
+&lt;/noscript&gt;
+</pre>
+
+
+<p>And this in the body:</p>
+
+<pre>
+&#123;&#123;#content&#125;&#125;
+    &lt;!-- Exciting rapidly changing content! --&gt; 
+&#123;&#123;/content&#125;&#125;
+</pre>
+
+
+<p>The function to generate content, using <a href="http://www.redis.io/">Redis</a>, would look like:</p>
+
+<div>
+  <pre><code class='python'>def get_page_content(old_id):
+    # If an old ID was specified, and it&#39;s equal to the current ID,
+    # subscribe to updates on the &#39;updates&#39; channel of our Redis database.
+    # Then listen for an update.  Whatever triggers the update should also
+    # modify the ID.
+    if old_id and old_id == db.get(&#39;id&#39;):
+        pubsub = db.pubsub()
+        pubsub.subscribe(&#39;updates&#39;)
+        pubsub.listen().next() 
+    return {
+        # Populate the refresh header in the template with the new
+        # ID.  The `0;` means that the browser will immediately
+        # try to reload the page -- but will hang, because the
+        # reload is for the new ID. 
+        &#39;refresh&#39;: &quot;0; url=?id=%s&quot; % db.get(&#39;id&#39;),
+        # This would be a separate function, but you get the point.
+        &#39;content&#39;: json.loads(db.get(&#39;content&#39;)) 
+    }</code></pre>
+</div>
+
+
+<p>The handler, using <a href="http://www.brubeck.io/">Brubeck</a> with <a href="http://www.gevent.org/">gevent</a>, would look like:</p>
+
+<div>
+  <pre><code class='python'>class PageHandler(MustacheRendering):
+
+    # The route is specified elsewhere, but this method will be called
+    # when there is a vanilla HTTP GET for the page.
+    def get(self):
+        # Pull out the last loaded page ID.  Will be `None` if none was
+        # specified.
+        old_id = self.get_argument(&#39;id&#39;)
+        try:
+            # See `get_page_content` above.
+            context = gevent.timeout.with_timeout(30, get_page_content, old_id)
+            return self.render_template(&#39;page&#39;, **context)
+        except gevent.timeout.Timeout:
+            # The timeout above was for thirty seconds.  If nothing changes
+            # after that time, the client is simply redirected back to the
+            # original page with no ID argument at all.  This will cause
+            # an immediate reload.
+            #
+            # We do this instead of redirecting to `&quot;?id=%s&quot; % old_id` 
+            # because that would cause another hang, and possibly another
+            # 3xx response if we hit this timeout again.  If nothing
+            # changes for a few minutes, which is likely, then the repeated
+            # redirects would wipe the page with a `too many redirects`
+            # error.  This avoids that eventuality. :)
+            return self.redirect(&#39;?&#39;)</code></pre>
+</div>
+
+
+<p>Neato!</p>
+
+<p>No.JS is pulled from the game&rsquo;s chat component.  Chat is tricky, because a
+refresh wipes forms.  You&rsquo;re typing, someone says something&hellip; and everything
+you were about to say goes to the bitbucket.  Keeping the chat messages inside
+an <code>&lt;iframe /&gt;</code> solves this problem.  I switched it out for a regular frame
+in No.JS to support older browsers.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">John Krauss</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2012-02-28T00:00:00-05:00" data-updated="true">Feb 28<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    <p class="meta">
+      
+        
+          <a class="basic-alignment left" href="/nypd-crash-data-band-aid" title="Previous Post: NYPD crash data band-aid">&larr;<span class="hide-mobile">&nbsp;NYPD crash data band-aid</span></a>
+        
+        
+          <a class="basic-alignment right" href="/nonagenarian-laptop" title="Next Post: Preparing a Mac laptop for your Grandma"><span class="hide-mobile">Preparing a Mac laptop for your Grandma&nbsp;</span>&rarr;</a>
+        
+      
+    </p>
+  </footer>
+	
+	<section id="comments">
+		<h1>Comments</h1>
+		
+		
+		<div id="disqus_thread" aria-live="polite">
+			<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+		</div>
+		
+	</section>
+	
+</article>
+
+  </div>
+  <footer role="contentinfo"><a rel="license" href="/license" class="CC">
+  <img alt="Creative Commons License" src="/img/cc-by-nc-small.png">
+</a>
+
+<script src="/js/typo.js"></script>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'recessionporn';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
