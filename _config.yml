@@ -6,7 +6,7 @@ url: http://blog.johnkrauss.com
 title: Accursed Ware
 #subtitle: A blogging framework for hackers.
 author: John Krauss
-simple_search: https://www.google.com/search
+#simple_search: https://www.google.com/search
 description: Foo bar baz.
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
