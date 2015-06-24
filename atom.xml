@@ -4,7 +4,7 @@
   <title><![CDATA[Accursed Ware]]></title>
   <link href="http://blog.johnkrauss.com/atom.xml" rel="self"/>
   <link href="http://blog.johnkrauss.com/"/>
-  <updated>2014-04-16T22:11:16-04:00</updated>
+  <updated>2015-06-24T16:32:16+00:00</updated>
   <id>http://blog.johnkrauss.com/</id>
   <author>
     <name><![CDATA[John Krauss]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[⅕ of NYC collision data wrong]]></title>
     <link href="http://blog.johnkrauss.com/geoclient-for-crashmapper"/>
-    <updated>2014-02-01T00:00:00-05:00</updated>
+    <updated>2014-02-01T00:00:00+00:00</updated>
     <id>http://blog.johnkrauss.com/geoclient-for-crashmapper</id>
     <content type="html"><![CDATA[<p>New York has really stepped up its open data game in the last year.  Data sets
 like <a href="https://data.cityofnewyork.us/data?browseSearch=acris">ACRIS</a> (the city property records) and <a href="https://data.cityofnewyork.us/City-Government/Primary-Land-Use-Tax-Lot-Output-Map-MapPLUTO-/f888-ni5f">MapPLUTO</a> (GIS) that used to
@@ -190,7 +190,7 @@ a check could be worked directly into the filing process.</p></li>
   <entry>
     <title type="html"><![CDATA[A YouTube CLI for Mac]]></title>
     <link href="http://blog.johnkrauss.com/installing-youtube-viewer"/>
-    <updated>2013-07-29T00:00:00-04:00</updated>
+    <updated>2013-07-29T00:00:00+00:00</updated>
     <id>http://blog.johnkrauss.com/installing-youtube-viewer</id>
     <content type="html"><![CDATA[<p>Out of laziness, I mostly listen to music off <a href="http://youtube.com">YouTube</a> these days.  As a
 library it&rsquo;s pretty unbeatable, and I don&rsquo;t have to worry about plugging in an
@@ -287,7 +287,7 @@ a video is playing:</p>
   <entry>
     <title type="html"><![CDATA[Introducing NYC Crashmapper]]></title>
     <link href="http://blog.johnkrauss.com/introducing-nyc-crashmapper"/>
-    <updated>2013-07-26T00:00:00-04:00</updated>
+    <updated>2013-07-26T00:00:00+00:00</updated>
     <id>http://blog.johnkrauss.com/introducing-nyc-crashmapper</id>
     <content type="html"><![CDATA[<p>For over a year, I&rsquo;ve been archiving and processing the New York City Police
 Department&rsquo;s collision data on the <a href="http://nypd.openscrape.com/">Crash Data Band-Aid</a>.</p>
@@ -320,7 +320,7 @@ interested!</p>
   <entry>
     <title type="html"><![CDATA[New Google Maps Mutilates Bike Layer]]></title>
     <link href="http://blog.johnkrauss.com/new-google-maps-mutilates-biking"/>
-    <updated>2013-07-12T00:00:00-04:00</updated>
+    <updated>2013-07-12T00:00:00+00:00</updated>
     <id>http://blog.johnkrauss.com/new-google-maps-mutilates-biking</id>
     <content type="html"><![CDATA[<p><em><strong>Update 8/1</strong>: Google fixed it yesterday!  Thanks everyone who filed tickets
 with them, maybe it made a difference. :)</em></p>
@@ -367,7 +367,7 @@ Here&rsquo;s to hoping they notice, actually care, and fix it quick.</p>
   <entry>
     <title type="html"><![CDATA[New NYC buildings less efficient]]></title>
     <link href="http://blog.johnkrauss.com/newer-nyc-buildings-less-efficient"/>
-    <updated>2013-07-05T00:00:00-04:00</updated>
+    <updated>2013-07-05T00:00:00+00:00</updated>
     <id>http://blog.johnkrauss.com/newer-nyc-buildings-less-efficient</id>
     <content type="html"><![CDATA[<p>Large buildings constructed in New York City since 1935 are by today&rsquo;s
 standards less energy efficient.</p>
@@ -459,7 +459,7 @@ blocks)","minValue":null,"viewWindowMode":null,"viewWindow":null,"maxValue":null
   <entry>
     <title type="html"><![CDATA[Preparing a Mac laptop for your Grandma]]></title>
     <link href="http://blog.johnkrauss.com/nonagenarian-laptop"/>
-    <updated>2013-05-26T00:00:00-04:00</updated>
+    <updated>2013-05-26T00:00:00+00:00</updated>
     <id>http://blog.johnkrauss.com/nonagenarian-laptop</id>
     <content type="html"><![CDATA[<p>My grandma got a new laptop for Mother&rsquo;s Day.  She&rsquo;s in her nineties, and first
 started using a computer a few years ago.  Email, watching music on
@@ -623,7 +623,7 @@ manageable for the elderly.</p>
   <entry>
     <title type="html"><![CDATA[JS-Free Live Chat]]></title>
     <link href="http://blog.johnkrauss.com/html-only-live-chat-No-JS"/>
-    <updated>2012-02-28T00:00:00-05:00</updated>
+    <updated>2012-02-28T00:00:00+00:00</updated>
     <id>http://blog.johnkrauss.com/html-only-live-chat-No-JS</id>
     <content type="html"><![CDATA[<p>I built a <a href="http://www.nodotjs.com/">real-time web-based chat</a> without a line of client-side code.  No
 JavaScript, no Flash, no (ew) Java applet.  100% HTML.  It even works in
@@ -704,22 +704,22 @@ header:</p>
 
 <div>
   <pre><code class='python'>def get_page_content(old_id):
-    # If an old ID was specified, and it&#39;s equal to the current ID,
-    # subscribe to updates on the &#39;updates&#39; channel of our Redis database.
+    # If an old ID was specified, and it's equal to the current ID,
+    # subscribe to updates on the 'updates' channel of our Redis database.
     # Then listen for an update.  Whatever triggers the update should also
     # modify the ID.
-    if old_id and old_id == db.get(&#39;id&#39;):
+    if old_id and old_id == db.get('id'):
         pubsub = db.pubsub()
-        pubsub.subscribe(&#39;updates&#39;)
+        pubsub.subscribe('updates')
         pubsub.listen().next() 
     return {
         # Populate the refresh header in the template with the new
         # ID.  The `0;` means that the browser will immediately
         # try to reload the page -- but will hang, because the
         # reload is for the new ID. 
-        &#39;refresh&#39;: &quot;0; url=?id=%s&quot; % db.get(&#39;id&#39;),
+        'refresh': &quot;0; url=?id=%s&quot; % db.get('id'),
         # This would be a separate function, but you get the point.
-        &#39;content&#39;: json.loads(db.get(&#39;content&#39;)) 
+        'content': json.loads(db.get('content')) 
     }</code></pre>
 </div>
 
@@ -734,11 +734,11 @@ header:</p>
     def get(self):
         # Pull out the last loaded page ID.  Will be `None` if none was
         # specified.
-        old_id = self.get_argument(&#39;id&#39;)
+        old_id = self.get_argument('id')
         try:
             # See `get_page_content` above.
             context = gevent.timeout.with_timeout(30, get_page_content, old_id)
-            return self.render_template(&#39;page&#39;, **context)
+            return self.render_template('page', **context)
         except gevent.timeout.Timeout:
             # The timeout above was for thirty seconds.  If nothing changes
             # after that time, the client is simply redirected back to the
@@ -751,7 +751,7 @@ header:</p>
             # changes for a few minutes, which is likely, then the repeated
             # redirects would wipe the page with a `too many redirects`
             # error.  This avoids that eventuality. :)
-            return self.redirect(&#39;?&#39;)</code></pre>
+            return self.redirect('?')</code></pre>
 </div>
 
 
@@ -768,7 +768,7 @@ in No.JS to support older browsers.</p>
   <entry>
     <title type="html"><![CDATA[NYPD crash data band-aid]]></title>
     <link href="http://blog.johnkrauss.com/nypd-crash-data-band-aid"/>
-    <updated>2012-02-16T00:00:00-05:00</updated>
+    <updated>2012-02-16T00:00:00+00:00</updated>
     <id>http://blog.johnkrauss.com/nypd-crash-data-band-aid</id>
     <content type="html"><![CDATA[<p>Yesterday, <a href="http://www.streetsblog.org/2012/02/15/nypds-lax-crash-investigations-may-violate-state-law">Streetsblog</a> wrote about the previous day&rsquo;s New York
 City Council hearing on traffic safety.  There have been several
@@ -838,7 +838,7 @@ Alternatives&#8217; <a href="http://crashstat.org/">CrashStat</a>, which only ru
   <entry>
     <title type="html"><![CDATA[The Long Reach of Industry Research]]></title>
     <link href="http://blog.johnkrauss.com/2.2-million-jobs"/>
-    <updated>2012-01-20T00:00:00-05:00</updated>
+    <updated>2012-01-20T00:00:00+00:00</updated>
     <id>http://blog.johnkrauss.com/2.2-million-jobs</id>
     <content type="html"><![CDATA[<p>PIPA is, for the moment, dead in the water.  Reid is not going to vote
 on cloture.  His <a href="http://democrats.senate.gov/2012/01/20/reid-statement-on-intellectual-property-bill/">statement</a> reads, in part:</p>
