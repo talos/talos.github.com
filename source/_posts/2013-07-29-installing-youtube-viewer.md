@@ -3,6 +3,7 @@ layout: post
 title: A YouTube CLI for Mac
 date: 2013-07-29
 thumbnail: /images/youtube-viewer.png
+comments: true
 ---
 
 Out of laziness, I mostly listen to music off [YouTube][] these days.  As a
