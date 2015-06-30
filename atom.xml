@@ -4,7 +4,7 @@
   <title><![CDATA[Accursed Ware]]></title>
   <link href="http://blog.johnkrauss.com/atom.xml" rel="self"/>
   <link href="http://blog.johnkrauss.com/"/>
-  <updated>2015-06-24T16:32:16+00:00</updated>
+  <updated>2015-06-30T16:48:05-04:00</updated>
   <id>http://blog.johnkrauss.com/</id>
   <author>
     <name><![CDATA[John Krauss]]></name>
@@ -14,9 +14,111 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Where is decontrol]]></title>
+    <link href="http://blog.johnkrauss.com/where-is-decontrol"/>
+    <updated>2015-06-28T00:00:00-04:00</updated>
+    <id>http://blog.johnkrauss.com/where-is-decontrol</id>
+    <content type="html"><![CDATA[<p>The rent stabilization law that keep apartments affordable for millions of New
+Yorkers was just renewed, warts and all.</p>
+
+<p>The fight in Albany between tenant advocates and politicians centered around
+closing loopholes in the law.  The worst allows stabilized apartments
+to exit the program when they reach $2,500 in rent per month, resulting in the
+loss of thousands of affordable apartments every year &mdash; far exceeding new
+construction of affordable units.</p>
+
+<p>But if you ask the state agency in charge of the program, Homes and Community
+Renewal, which buildings are losing units, and how many, they won&rsquo;t tell you.
+In fact, they turn down any Freedom of Information Law requests for data
+regarding the stabilization program, even when there is no clear privacy
+concern.</p>
+
+<p>The only information they&rsquo;ll release is a list of buildings that have units in
+the program.  The list doesn&rsquo;t indicate whether the building is fully
+stabilized, or only has 1 unit left.</p>
+
+<p>The secrecy blanketing the stabilization program makes it very difficult to
+understand how loopholes in the program affect affordability in different
+neighborhoods over time.  Not only does this impede advocacy, but it provides
+cover for landlords who fail to voluntarily register their units, which could
+be an indication that they are in violation of the law.</p>
+
+<p>Remarkably, the percentage of stabilized units per building over time is hidden
+in plain sight, in every building&rsquo;s tax bills.  With help from a few civic
+hackers, I built <a href="http://taxbills.nyc">taxbills.nyc</a>, a repository of every tax
+bill going back to 2008 for every building that could be stabilized in New
+York.</p>
+
+<p>Using this data, I&rsquo;ve put together <a href="https://docker4data.cartodb.com/viz/766a0f32-1ea1-11e5-b267-0e49835281d6/public_map">a
+map</a>
+that shows precisely where stabilized units are disappearing, holding steady,
+or being constructed.</p>
+
+<!--
+![Changes in stabilized unit counts 2007-2014](/images/stabilization.jpg)[1]
+
+  [1]: https://docker4data.cartodb.com/viz/766a0f32-1ea1-11e5-b267-0e49835281d6/public_map
+-->
+
+
+
+
+<iframe width='100%' height='520' frameborder='0'
+src='https://docker4data.cartodb.com/viz/766a0f32-1ea1-11e5-b267-0e49835281d6/embed_map'
+allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen
+msallowfullscreen></iframe>
+
+
+<p>The map is meant to enable quick comparisons between four classes of buildings.</p>
+
+<ol>
+<li><strong>Major Losses</strong>, in red, buildings where 50% or more of the units in the
+buildingi have left stabilization between 2007 and 2014.  These buildings
+are densest in the Upper East Side of Manhattan, where the high-rent vacancy
+loophole has allowed very large numbers of units to exit the program.
+However, Bushwick is also a hotspot for this class, which would suggest that
+landlords there are failing to register the stabilized units in their
+buildings.</li>
+<li><strong>Decreases</strong>, in yellow through orange, buildings where up to 50% of the
+units in the building have left stabilization.  The Upper East Side again
+leads the way in losses here, but there are significant patches of loss along
+the high-density stabilized corridor from Prospect Park to the ocean in
+Brooklyn along Ocean Ave, and along Queens Boulevard in Forest Hills.</li>
+<li><strong>Steady</strong>, in blue, buildings where the number of stabilized units has
+remained the same or very slightly increased.  In Manhattan, Chinatown and
+Washington Heights have held their units relatively well; much of the Bronx
+along the Grand Concourse has, too.  Those landlords who are registering in
+Bushwick, Brooklyn often are registering the same number of units 2014 as 2007.
+Many buildings on Ocean ave in Brooklyn have held steady, too.</li>
+<li><strong>Increases</strong>, in cyan through green, buildings where the number of
+stabilized units has increased 10% or more.  These are often new
+developments with affordable housing.</li>
+</ol>
+
+
+<p>By using the map and its underlying data, advocates should be able to identify
+buildings that are just starting to lose significant numbers of units, or may
+not be properly registered by their owners.</p>
+
+<p>It also should be possible to aggregate along arbitrary political boundaries,
+so electeds can understand how loopholes are affecting rental affordability
+for their constituents.</p>
+
+<p>The underlying data is available in several CSV tables on
+<a href="http://taxbills.nyc">taxbills.nyc</a>.  The underlying scrapers, which download
+the bills, and parsers, which turn the HTML pages and PDFs downloaded into
+tabular data, can be found <a href="http://github.com/talos/nyc-stabilization-unit-counts">on
+GitHub</a>.</p>
+
+<p>The guide to using the data on
+<a href="https://github.com/talos/nyc-stabilization-unit-counts#data-usage">GitHub</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[⅕ of NYC collision data wrong]]></title>
     <link href="http://blog.johnkrauss.com/geoclient-for-crashmapper"/>
-    <updated>2014-02-01T00:00:00+00:00</updated>
+    <updated>2014-02-01T00:00:00-05:00</updated>
     <id>http://blog.johnkrauss.com/geoclient-for-crashmapper</id>
     <content type="html"><![CDATA[<p>New York has really stepped up its open data game in the last year.  Data sets
 like <a href="https://data.cityofnewyork.us/data?browseSearch=acris">ACRIS</a> (the city property records) and <a href="https://data.cityofnewyork.us/City-Government/Primary-Land-Use-Tax-Lot-Output-Map-MapPLUTO-/f888-ni5f">MapPLUTO</a> (GIS) that used to
@@ -190,7 +292,7 @@ a check could be worked directly into the filing process.</p></li>
   <entry>
     <title type="html"><![CDATA[A YouTube CLI for Mac]]></title>
     <link href="http://blog.johnkrauss.com/installing-youtube-viewer"/>
-    <updated>2013-07-29T00:00:00+00:00</updated>
+    <updated>2013-07-29T00:00:00-04:00</updated>
     <id>http://blog.johnkrauss.com/installing-youtube-viewer</id>
     <content type="html"><![CDATA[<p>Out of laziness, I mostly listen to music off <a href="http://youtube.com">YouTube</a> these days.  As a
 library it&rsquo;s pretty unbeatable, and I don&rsquo;t have to worry about plugging in an
@@ -287,7 +389,7 @@ a video is playing:</p>
   <entry>
     <title type="html"><![CDATA[Introducing NYC Crashmapper]]></title>
     <link href="http://blog.johnkrauss.com/introducing-nyc-crashmapper"/>
-    <updated>2013-07-26T00:00:00+00:00</updated>
+    <updated>2013-07-26T00:00:00-04:00</updated>
     <id>http://blog.johnkrauss.com/introducing-nyc-crashmapper</id>
     <content type="html"><![CDATA[<p>For over a year, I&rsquo;ve been archiving and processing the New York City Police
 Department&rsquo;s collision data on the <a href="http://nypd.openscrape.com/">Crash Data Band-Aid</a>.</p>
@@ -320,7 +422,7 @@ interested!</p>
   <entry>
     <title type="html"><![CDATA[New Google Maps Mutilates Bike Layer]]></title>
     <link href="http://blog.johnkrauss.com/new-google-maps-mutilates-biking"/>
-    <updated>2013-07-12T00:00:00+00:00</updated>
+    <updated>2013-07-12T00:00:00-04:00</updated>
     <id>http://blog.johnkrauss.com/new-google-maps-mutilates-biking</id>
     <content type="html"><![CDATA[<p><em><strong>Update 8/1</strong>: Google fixed it yesterday!  Thanks everyone who filed tickets
 with them, maybe it made a difference. :)</em></p>
@@ -367,7 +469,7 @@ Here&rsquo;s to hoping they notice, actually care, and fix it quick.</p>
   <entry>
     <title type="html"><![CDATA[New NYC buildings less efficient]]></title>
     <link href="http://blog.johnkrauss.com/newer-nyc-buildings-less-efficient"/>
-    <updated>2013-07-05T00:00:00+00:00</updated>
+    <updated>2013-07-05T00:00:00-04:00</updated>
     <id>http://blog.johnkrauss.com/newer-nyc-buildings-less-efficient</id>
     <content type="html"><![CDATA[<p>Large buildings constructed in New York City since 1935 are by today&rsquo;s
 standards less energy efficient.</p>
@@ -459,7 +561,7 @@ blocks)","minValue":null,"viewWindowMode":null,"viewWindow":null,"maxValue":null
   <entry>
     <title type="html"><![CDATA[Preparing a Mac laptop for your Grandma]]></title>
     <link href="http://blog.johnkrauss.com/nonagenarian-laptop"/>
-    <updated>2013-05-26T00:00:00+00:00</updated>
+    <updated>2013-05-26T00:00:00-04:00</updated>
     <id>http://blog.johnkrauss.com/nonagenarian-laptop</id>
     <content type="html"><![CDATA[<p>My grandma got a new laptop for Mother&rsquo;s Day.  She&rsquo;s in her nineties, and first
 started using a computer a few years ago.  Email, watching music on
@@ -623,7 +725,7 @@ manageable for the elderly.</p>
   <entry>
     <title type="html"><![CDATA[JS-Free Live Chat]]></title>
     <link href="http://blog.johnkrauss.com/html-only-live-chat-No-JS"/>
-    <updated>2012-02-28T00:00:00+00:00</updated>
+    <updated>2012-02-28T00:00:00-05:00</updated>
     <id>http://blog.johnkrauss.com/html-only-live-chat-No-JS</id>
     <content type="html"><![CDATA[<p>I built a <a href="http://www.nodotjs.com/">real-time web-based chat</a> without a line of client-side code.  No
 JavaScript, no Flash, no (ew) Java applet.  100% HTML.  It even works in
@@ -704,22 +806,22 @@ header:</p>
 
 <div>
   <pre><code class='python'>def get_page_content(old_id):
-    # If an old ID was specified, and it's equal to the current ID,
-    # subscribe to updates on the 'updates' channel of our Redis database.
+    # If an old ID was specified, and it&#39;s equal to the current ID,
+    # subscribe to updates on the &#39;updates&#39; channel of our Redis database.
     # Then listen for an update.  Whatever triggers the update should also
     # modify the ID.
-    if old_id and old_id == db.get('id'):
+    if old_id and old_id == db.get(&#39;id&#39;):
         pubsub = db.pubsub()
-        pubsub.subscribe('updates')
+        pubsub.subscribe(&#39;updates&#39;)
         pubsub.listen().next() 
     return {
         # Populate the refresh header in the template with the new
         # ID.  The `0;` means that the browser will immediately
         # try to reload the page -- but will hang, because the
         # reload is for the new ID. 
-        'refresh': &quot;0; url=?id=%s&quot; % db.get('id'),
+        &#39;refresh&#39;: &quot;0; url=?id=%s&quot; % db.get(&#39;id&#39;),
         # This would be a separate function, but you get the point.
-        'content': json.loads(db.get('content')) 
+        &#39;content&#39;: json.loads(db.get(&#39;content&#39;)) 
     }</code></pre>
 </div>
 
@@ -734,11 +836,11 @@ header:</p>
     def get(self):
         # Pull out the last loaded page ID.  Will be `None` if none was
         # specified.
-        old_id = self.get_argument('id')
+        old_id = self.get_argument(&#39;id&#39;)
         try:
             # See `get_page_content` above.
             context = gevent.timeout.with_timeout(30, get_page_content, old_id)
-            return self.render_template('page', **context)
+            return self.render_template(&#39;page&#39;, **context)
         except gevent.timeout.Timeout:
             # The timeout above was for thirty seconds.  If nothing changes
             # after that time, the client is simply redirected back to the
@@ -751,7 +853,7 @@ header:</p>
             # changes for a few minutes, which is likely, then the repeated
             # redirects would wipe the page with a `too many redirects`
             # error.  This avoids that eventuality. :)
-            return self.redirect('?')</code></pre>
+            return self.redirect(&#39;?&#39;)</code></pre>
 </div>
 
 
@@ -768,7 +870,7 @@ in No.JS to support older browsers.</p>
   <entry>
     <title type="html"><![CDATA[NYPD crash data band-aid]]></title>
     <link href="http://blog.johnkrauss.com/nypd-crash-data-band-aid"/>
-    <updated>2012-02-16T00:00:00+00:00</updated>
+    <updated>2012-02-16T00:00:00-05:00</updated>
     <id>http://blog.johnkrauss.com/nypd-crash-data-band-aid</id>
     <content type="html"><![CDATA[<p>Yesterday, <a href="http://www.streetsblog.org/2012/02/15/nypds-lax-crash-investigations-may-violate-state-law">Streetsblog</a> wrote about the previous day&rsquo;s New York
 City Council hearing on traffic safety.  There have been several
@@ -838,7 +940,7 @@ Alternatives&#8217; <a href="http://crashstat.org/">CrashStat</a>, which only ru
   <entry>
     <title type="html"><![CDATA[The Long Reach of Industry Research]]></title>
     <link href="http://blog.johnkrauss.com/2.2-million-jobs"/>
-    <updated>2012-01-20T00:00:00+00:00</updated>
+    <updated>2012-01-20T00:00:00-05:00</updated>
     <id>http://blog.johnkrauss.com/2.2-million-jobs</id>
     <content type="html"><![CDATA[<p>PIPA is, for the moment, dead in the water.  Reid is not going to vote
 on cloture.  His <a href="http://democrats.senate.gov/2012/01/20/reid-statement-on-intellectual-property-bill/">statement</a> reads, in part:</p>

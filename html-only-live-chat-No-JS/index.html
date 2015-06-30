@@ -99,7 +99,7 @@
 
 
 
-<time datetime="2012-02-28T00:00:00+00:00" data-updated="true">Feb 28<span>th</span>, 2012</time>
+<time datetime="2012-02-28T00:00:00-05:00" data-updated="true">Feb 28<span>th</span>, 2012</time>
       </p>
     
   </header>
@@ -184,22 +184,22 @@ header:</p>
 
 <div>
   <pre><code class='python'>def get_page_content(old_id):
-    # If an old ID was specified, and it's equal to the current ID,
-    # subscribe to updates on the 'updates' channel of our Redis database.
+    # If an old ID was specified, and it&#39;s equal to the current ID,
+    # subscribe to updates on the &#39;updates&#39; channel of our Redis database.
     # Then listen for an update.  Whatever triggers the update should also
     # modify the ID.
-    if old_id and old_id == db.get('id'):
+    if old_id and old_id == db.get(&#39;id&#39;):
         pubsub = db.pubsub()
-        pubsub.subscribe('updates')
+        pubsub.subscribe(&#39;updates&#39;)
         pubsub.listen().next() 
     return {
         # Populate the refresh header in the template with the new
         # ID.  The `0;` means that the browser will immediately
         # try to reload the page -- but will hang, because the
         # reload is for the new ID. 
-        'refresh': &quot;0; url=?id=%s&quot; % db.get('id'),
+        &#39;refresh&#39;: &quot;0; url=?id=%s&quot; % db.get(&#39;id&#39;),
         # This would be a separate function, but you get the point.
-        'content': json.loads(db.get('content')) 
+        &#39;content&#39;: json.loads(db.get(&#39;content&#39;)) 
     }</code></pre>
 </div>
 
@@ -214,11 +214,11 @@ header:</p>
     def get(self):
         # Pull out the last loaded page ID.  Will be `None` if none was
         # specified.
-        old_id = self.get_argument('id')
+        old_id = self.get_argument(&#39;id&#39;)
         try:
             # See `get_page_content` above.
             context = gevent.timeout.with_timeout(30, get_page_content, old_id)
-            return self.render_template('page', **context)
+            return self.render_template(&#39;page&#39;, **context)
         except gevent.timeout.Timeout:
             # The timeout above was for thirty seconds.  If nothing changes
             # after that time, the client is simply redirected back to the
@@ -231,7 +231,7 @@ header:</p>
             # changes for a few minutes, which is likely, then the repeated
             # redirects would wipe the page with a `too many redirects`
             # error.  This avoids that eventuality. :)
-            return self.redirect('?')</code></pre>
+            return self.redirect(&#39;?&#39;)</code></pre>
 </div>
 
 
@@ -265,7 +265,7 @@ in No.JS to support older browsers.</p>
 
 
 
-<time datetime="2012-02-28T00:00:00+00:00" data-updated="true">Feb 28<span>th</span>, 2012</time>
+<time datetime="2012-02-28T00:00:00-05:00" data-updated="true">Feb 28<span>th</span>, 2012</time>
       
 
 

@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Where is decontrol — Accursed Ware</title>
+  <meta name="author" content="John Krauss"/>
+
+  
+  <meta name="description" content="Foo bar baz."/>
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  
+  <link rel="canonical" href="http://blog.johnkrauss.com/where-is-decontrol"/>
+  <link href="/favicon.png" rel="icon"/>
+  <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css"/>
+  <link href="/atom.xml" rel="alternate" title="Accursed Ware" type="application/atom+xml"/>
+  <script src="//cdn.jsdelivr.net/jquery/1.11/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.min.js"><\/script>')</script>
+  
+  <script type="text/javascript" src="//use.typekit.net/ijs2xpi.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+  
+  
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-20153319-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body >
+  
+  <header role="banner" class="hidden">
+  <h1><a href="/">Accursed Ware</a></h1>
+
+
+
+</header>
+  
+  <nav class="navbar navbar-static-top" role="navigation"><div class="nav-collapse collapse">
+<!--
+<ul class="nav subscription pull-right" data-subscription="rss">
+  <li><a href="/atom.xml" rel="alternate" data-type="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+-->
+  
+</div>
+<!--
+<ul class="nav main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+-->
+
+</nav>
+  <div id="content" class="container">
+    <article class="hentry span10 offset1" role="article">
+  
+  <header>
+    
+      
+        
+          
+        
+      
+      
+      <h1 class="entry-title">Where Is Decontrol</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-06-28T00:00:00-04:00" data-updated="true">Jun 28<span>th</span>, 2015</time>
+      </p>
+    
+  </header>
+
+
+<div class="entry-content lettrine"><p>The rent stabilization law that keep apartments affordable for millions of New
+Yorkers was just renewed, warts and all.</p>
+
+<p>The fight in Albany between tenant advocates and politicians centered around
+closing loopholes in the law.  The worst allows stabilized apartments
+to exit the program when they reach $2,500 in rent per month, resulting in the
+loss of thousands of affordable apartments every year &mdash; far exceeding new
+construction of affordable units.</p>
+
+<p>But if you ask the state agency in charge of the program, Homes and Community
+Renewal, which buildings are losing units, and how many, they won&rsquo;t tell you.
+In fact, they turn down any Freedom of Information Law requests for data
+regarding the stabilization program, even when there is no clear privacy
+concern.</p>
+
+<p>The only information they&rsquo;ll release is a list of buildings that have units in
+the program.  The list doesn&rsquo;t indicate whether the building is fully
+stabilized, or only has 1 unit left.</p>
+
+<p>The secrecy blanketing the stabilization program makes it very difficult to
+understand how loopholes in the program affect affordability in different
+neighborhoods over time.  Not only does this impede advocacy, but it provides
+cover for landlords who fail to voluntarily register their units, which could
+be an indication that they are in violation of the law.</p>
+
+<p>Remarkably, the percentage of stabilized units per building over time is hidden
+in plain sight, in every building&rsquo;s tax bills.  With help from a few civic
+hackers, I built <a href="http://taxbills.nyc">taxbills.nyc</a>, a repository of every tax
+bill going back to 2008 for every building that could be stabilized in New
+York.</p>
+
+<p>Using this data, I&rsquo;ve put together <a href="https://docker4data.cartodb.com/viz/766a0f32-1ea1-11e5-b267-0e49835281d6/public_map">a
+map</a>
+that shows precisely where stabilized units are disappearing, holding steady,
+or being constructed.</p>
+
+<!--
+![Changes in stabilized unit counts 2007-2014](/images/stabilization.jpg)[1]
+
+  [1]: https://docker4data.cartodb.com/viz/766a0f32-1ea1-11e5-b267-0e49835281d6/public_map
+-->
+
+
+
+
+<iframe width='100%' height='520' frameborder='0'
+src='https://docker4data.cartodb.com/viz/766a0f32-1ea1-11e5-b267-0e49835281d6/embed_map'
+allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen
+msallowfullscreen></iframe>
+
+
+<p>The map is meant to enable quick comparisons between four classes of buildings.</p>
+
+<ol>
+<li><strong>Major Losses</strong>, in red, buildings where 50% or more of the units in the
+buildingi have left stabilization between 2007 and 2014.  These buildings
+are densest in the Upper East Side of Manhattan, where the high-rent vacancy
+loophole has allowed very large numbers of units to exit the program.
+However, Bushwick is also a hotspot for this class, which would suggest that
+landlords there are failing to register the stabilized units in their
+buildings.</li>
+<li><strong>Decreases</strong>, in yellow through orange, buildings where up to 50% of the
+units in the building have left stabilization.  The Upper East Side again
+leads the way in losses here, but there are significant patches of loss along
+the high-density stabilized corridor from Prospect Park to the ocean in
+Brooklyn along Ocean Ave, and along Queens Boulevard in Forest Hills.</li>
+<li><strong>Steady</strong>, in blue, buildings where the number of stabilized units has
+remained the same or very slightly increased.  In Manhattan, Chinatown and
+Washington Heights have held their units relatively well; much of the Bronx
+along the Grand Concourse has, too.  Those landlords who are registering in
+Bushwick, Brooklyn often are registering the same number of units 2014 as 2007.
+Many buildings on Ocean ave in Brooklyn have held steady, too.</li>
+<li><strong>Increases</strong>, in cyan through green, buildings where the number of
+stabilized units has increased 10% or more.  These are often new
+developments with affordable housing.</li>
+</ol>
+
+
+<p>By using the map and its underlying data, advocates should be able to identify
+buildings that are just starting to lose significant numbers of units, or may
+not be properly registered by their owners.</p>
+
+<p>It also should be possible to aggregate along arbitrary political boundaries,
+so electeds can understand how loopholes are affecting rental affordability
+for their constituents.</p>
+
+<p>The underlying data is available in several CSV tables on
+<a href="http://taxbills.nyc">taxbills.nyc</a>.  The underlying scrapers, which download
+the bills, and parsers, which turn the HTML pages and PDFs downloaded into
+tabular data, can be found <a href="http://github.com/talos/nyc-stabilization-unit-counts">on
+GitHub</a>.</p>
+
+<p>The guide to using the data on
+<a href="https://github.com/talos/nyc-stabilization-unit-counts#data-usage">GitHub</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">John Krauss</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-06-28T00:00:00-04:00" data-updated="true">Jun 28<span>th</span>, 2015</time>
+      
+
+
+    </p>
+    <p class="meta">
+      
+        
+          <a class="basic-alignment left" href="/geoclient-for-crashmapper" title="Previous Post: ⅕ of NYC collision data wrong">&larr;<span class="hide-mobile">&nbsp;⅕ of NYC collision data wrong</span></a>
+        
+        
+      
+    </p>
+  </footer>
+	
+	<section id="comments">
+		<h1>Comments</h1>
+		
+		
+		<div id="disqus_thread" aria-live="polite">
+			<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+		</div>
+		
+	</section>
+	
+</article>
+
+  </div>
+  <footer role="contentinfo"><a rel="license" href="/license" class="CC">
+  <img alt="Creative Commons License" src="/img/cc-by-nc-small.png">
+</a>
+
+<script src="/js/typo.js"></script>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'recessionporn';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.johnkrauss.com/where-is-decontrol';
+        var disqus_url = 'http://blog.johnkrauss.com/where-is-decontrol';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
