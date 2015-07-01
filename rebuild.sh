@@ -1,5 +1,6 @@
-#!/bin/bash
+#!/bin/bash -e
 
+git checkout source
 jekyll
 git checkout master
 git fetch origin master
