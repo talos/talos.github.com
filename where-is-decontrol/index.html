@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>Where is decontrol — Accursed Ware</title>
+  <title>Whither Rent Regulation — Accursed Ware</title>
   <meta name="author" content="John Krauss"/>
 
   
@@ -50,6 +50,8 @@
   <h1><a href="/">Accursed Ware</a></h1>
 
 
+  <h2>blog of john krauss, hacker, mapper, etc. <a href="https://github.com/talos" target="_blank">github.com/talos</a> <a href="https://twitter.com/recessionporn" target="_blank">@recessionporn</a></h2>
+
 
 </header>
   
@@ -82,7 +84,7 @@
         
       
       
-      <h1 class="entry-title">Where Is Decontrol</h1>
+      <h1 class="entry-title">Whither Rent Regulation</h1>
     
     
       <p class="meta">
@@ -99,7 +101,7 @@
 
 
 
-<time datetime="2015-06-28T00:00:00-04:00" data-updated="true">Jun 28<span>th</span>, 2015</time>
+<time datetime="2015-07-01T00:00:00-04:00" data-updated="true">Jul 1<span>st</span>, 2015</time>
       </p>
     
   </header>
@@ -109,46 +111,55 @@
 Yorkers was just renewed, warts and all.</p>
 
 <p>The fight in Albany between tenant advocates and politicians centered around
-closing loopholes in the law.  The worst allows stabilized apartments
-to exit the program when they reach $2,500 in rent per month, resulting in the
-loss of thousands of affordable apartments every year &mdash; far exceeding new
-construction of affordable units.</p>
+closing loopholes in the law.  The worst allows stabilized apartments to exit
+the program when their rent gets high enough, resulting in the loss of
+thousands of affordable apartments every year &mdash; far exceeding new construction
+of affordable apartments.</p>
 
-<p>But if you ask the state agency in charge of the program, Homes and Community
-Renewal, which buildings are losing units, and how many, they won&rsquo;t tell you.
-In fact, they turn down any Freedom of Information Law requests for data
-regarding the stabilization program, even when there is no clear privacy
-concern.</p>
+<h3>Secrecy</h3>
 
-<p>The only information they&rsquo;ll release is a list of buildings that have units in
-the program.  The list doesn&rsquo;t indicate whether the building is fully
-stabilized, or only has 1 unit left.</p>
+<p>But if you ask <a href="http://www.nyshcr.org/">the agency in charge of rent stabilization</a> which buildings
+are losing stabilized apartments, they won&rsquo;t tell you.  In fact, they reject
+any Freedom of Information Law requests for data regarding the number of
+apartments in the stabilization program by building, citing unclear privacy
+concerns.</p>
+
+<p>The only information they&rsquo;ll release is a <a href="https://github.com/clhenrick/dhcr-rent-stabilized-data">list of buildings</a> that have
+apartments in the program.  The list doesn&rsquo;t indicate whether every apartment in
+a building is stabilized, or if only some are.  <strong>Buildings that are 100%
+stabilized look the same on this list as buildings with just one apartment left in
+the program.</strong></p>
 
 <p>The secrecy blanketing the stabilization program makes it very difficult to
 understand how loopholes in the program affect affordability in different
-neighborhoods over time.  Not only does this impede advocacy, but it provides
-cover for landlords who fail to voluntarily register their units, which could
-be an indication that they are in violation of the law.</p>
+neighborhoods over time.  Not only does this make life hard for tenant
+advocates, but it provides cover for landlords who fail to tell the state
+(register) their stabilized apartments.  Registration is voluntary &mdash; another
+loophole in the law &mdash; and failure to do so could be an indication that they
+are overcharging their tenants.</p>
 
-<p>Remarkably, the percentage of stabilized units per building over time is hidden
-in plain sight, in every building&rsquo;s tax bills.  With help from a few civic
-hackers, I built <a href="http://taxbills.nyc">taxbills.nyc</a>, a repository of every tax
-bill going back to 2008 for every building that could be stabilized in New
-York.</p>
+<h3>Hidden in plain sight</h3>
+
+<p>Remarkably, the percentage of stabilized apartments per building over time is hidden
+in plain sight, in every building&rsquo;s property tax bills.  With help from a few
+civic hackers, I built <a href="http://taxbills.nyc">taxbills.nyc</a>, a collection of
+every tax bill going back to 2008 for every building that might be stabilized
+in New York City.</p>
+
+<p>Putting together this site required downloading hundreds of thousands of tax
+bills PDFs over several months because New York City&rsquo;s <a href="http://www1.nyc.gov/site/finance/index.page">Department of
+Finance</a> (DoF) wanted $50,000 to mail me files that could already be found
+free online.  More on that in the next post.</p>
+
+<blockquote><p>&hellip;approximately 1,000 hours at a cost to you of $50.36 per hour is needed to
+fulfill your request&hellip; <cite><a href="https://www.muckrock.com/foi/new-york-city-17/all-property-tax-documents-on-nycproperty-17246/#comm-146539">DoF Records Access Office</a></cite></p></blockquote>
 
 <p>Using this data, I&rsquo;ve put together <a href="https://docker4data.cartodb.com/viz/766a0f32-1ea1-11e5-b267-0e49835281d6/public_map">a
 map</a>
-that shows precisely where stabilized units are disappearing, holding steady,
-or being constructed.</p>
+that shows precisely where stabilized apartments have disappeared, remained,
+or been constructed between 2007 and 2014.</p>
 
-<!--
-![Changes in stabilized unit counts 2007-2014](/images/stabilization.jpg)[1]
-
-  [1]: https://docker4data.cartodb.com/viz/766a0f32-1ea1-11e5-b267-0e49835281d6/public_map
--->
-
-
-
+<p><noscript><img src="/images/stabilization.jpg" alt="Changes in stabilized apartment counts 2007-2014" /><a href="https://docker4data.cartodb.com/viz/766a0f32-1ea1-11e5-b267-0e49835281d6/public_map">5</a></noscript></p>
 
 <iframe width='100%' height='520' frameborder='0'
 src='https://docker4data.cartodb.com/viz/766a0f32-1ea1-11e5-b267-0e49835281d6/embed_map'
@@ -159,37 +170,58 @@ msallowfullscreen></iframe>
 <p>The map is meant to enable quick comparisons between four classes of buildings.</p>
 
 <ol>
-<li><strong>Major Losses</strong>, in red, buildings where 50% or more of the units in the
-buildingi have left stabilization between 2007 and 2014.  These buildings
-are densest in the Upper East Side of Manhattan, where the high-rent vacancy
-loophole has allowed very large numbers of units to exit the program.
-However, Bushwick is also a hotspot for this class, which would suggest that
-landlords there are failing to register the stabilized units in their
-buildings.</li>
-<li><strong>Decreases</strong>, in yellow through orange, buildings where up to 50% of the
-units in the building have left stabilization.  The Upper East Side again
+<li><p><span style="color:red;"><strong>Major Losses</strong></span>, in red, buildings where
+<em>50% or more</em> of the apartments in the building have left stabilization between
+2007 and 2014.  These buildings are densest in the Upper East Side of
+Manhattan, where the high-rent vacancy loophole has allowed very large numbers
+of apartments to exit the program.  However, Bushwick is also a hotspot for this
+class, which would suggest that landlords there are failing to register the
+stabilized apartments in their buildings.</p></li>
+<li><p><span style="color:#cc0;"><strong>Decreases</strong></span>, in yellow through
+orange, buildings where <em>up to 50%</em> of the
+apartments in the building have left stabilization.  The Upper East Side again
 leads the way in losses here, but there are significant patches of loss along
 the high-density stabilized corridor from Prospect Park to the ocean in
-Brooklyn along Ocean Ave, and along Queens Boulevard in Forest Hills.</li>
-<li><strong>Steady</strong>, in blue, buildings where the number of stabilized units has
-remained the same or very slightly increased.  In Manhattan, Chinatown and
-Washington Heights have held their units relatively well; much of the Bronx
+Brooklyn along Ocean Ave, and along Queens Boulevard in Forest Hills.</p></li>
+<li><p><span style="color:blue;"><strong>Steady</strong></span>, in blue, buildings where the
+number of stabilized apartments has <em>remained the same</em> or very slightly
+increased.  In Manhattan, Chinatown and
+Washington Heights have held their apartments relatively well; much of the Bronx
 along the Grand Concourse has, too.  Those landlords who are registering in
-Bushwick, Brooklyn often are registering the same number of units 2014 as 2007.
-Many buildings on Ocean ave in Brooklyn have held steady, too.</li>
-<li><strong>Increases</strong>, in cyan through green, buildings where the number of
-stabilized units has increased 10% or more.  These are often new
-developments with affordable housing.</li>
+Bushwick, Brooklyn often are registering the same number of apartments 2014 as 2007.
+Many buildings on Ocean ave in Brooklyn have held steady, too.</p></li>
+<li><p><span style="color:green;"><strong>Increases</strong></span>, in cyan through green,
+buildings where the number of stabilized apartments has <em>increased 10% or more</em>.
+These are often new developments with affordable housing.</p></li>
 </ol>
 
 
-<p>By using the map and its underlying data, advocates should be able to identify
-buildings that are just starting to lose significant numbers of units, or may
-not be properly registered by their owners.</p>
+<p>Buildings with more apartments have larger diameter circles, and precise unit
+counts, subsidies, and addresses  are available by hovering or clicking on
+their circle.</p>
 
-<p>It also should be possible to aggregate along arbitrary political boundaries,
+<p>Color is based off of the percentage change in stabilized apartments over the
+total number of apartments in the building.  So a building with 20 apartments
+total that had 10 stabilized in 2007, and 5 stabilized in 2014, would be a 25%
+loss.  Its circle would be orange.</p>
+
+<h3>Uses</h3>
+
+<p>By using the map and its underlying data, advocates should be able to identify
+buildings:</p>
+
+<ul>
+<li><p>just starting to lose significant numbers of stabilized apartments</p></li>
+<li><p>whose landlords have stopped registering with the state, and thus may contain
+tenants at risk of overcharge</p></li>
+</ul>
+
+
+<p>It is also possible to break down losses and gains by any political boundary,
 so electeds can understand how loopholes are affecting rental affordability
 for their constituents.</p>
+
+<h3>Get the data!</h3>
 
 <p>The underlying data is available in several CSV tables on
 <a href="http://taxbills.nyc">taxbills.nyc</a>.  The underlying scrapers, which download
@@ -197,7 +229,7 @@ the bills, and parsers, which turn the HTML pages and PDFs downloaded into
 tabular data, can be found <a href="http://github.com/talos/nyc-stabilization-unit-counts">on
 GitHub</a>.</p>
 
-<p>The guide to using the data on
+<p>The guide to using the data is on
 <a href="https://github.com/talos/nyc-stabilization-unit-counts#data-usage">GitHub</a>.</p>
 </div>
 
@@ -222,7 +254,7 @@ GitHub</a>.</p>
 
 
 
-<time datetime="2015-06-28T00:00:00-04:00" data-updated="true">Jun 28<span>th</span>, 2015</time>
+<time datetime="2015-07-01T00:00:00-04:00" data-updated="true">Jul 1<span>st</span>, 2015</time>
       
 
 

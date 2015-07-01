@@ -1,2 +1,5 @@
 public
 source
+.DS_Store
+.sass-cache
+_deploy
