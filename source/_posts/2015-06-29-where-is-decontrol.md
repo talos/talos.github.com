@@ -7,7 +7,7 @@ comments: on
 ---
 
 The rent stabilization law that keep apartments affordable for millions of New
-Yorkers was just renewed, warts and all.
+Yorkers was just renewed, [warts and all](http://gothamist.com/2015/06/23/cuomo_rent_albany_samo.php).
 
 The fight in Albany between tenant advocates and politicians centered around
 closing loopholes in the law.  The worst allows stabilized apartments to exit
