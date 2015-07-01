@@ -3,6 +3,7 @@ layout: post
 title: Introducing NYC Crashmapper
 date: 2013-07-26
 thumbnail: /images/nyc-crashmapper.jpg
+comments: true
 ---
 
 For over a year, I've been archiving and processing the New York City Police

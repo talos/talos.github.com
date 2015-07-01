@@ -4,6 +4,7 @@ title: New Google Maps Mutilates Bike Layer
 date: 2013-07-12
 thumbnail: /images/gmaps-manhattan.png
 excerpt: Anyone who bikes in New York City and uses Google Maps to look up their route is in for an unpleasant surprise.
+comments: true
 ---
 
 *__Update 8/1__: Google fixed it yesterday!  Thanks everyone who filed tickets

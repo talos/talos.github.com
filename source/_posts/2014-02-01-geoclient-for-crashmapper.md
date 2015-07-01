@@ -4,6 +4,7 @@ layout: post
 title: ⅕ of NYC collision data wrong
 date: 2014-02-01
 thumbnail: /images/neptune-and-brighton.png
+comments: on
 ---
 
 New York has really stepped up its open data game in the last year.  Data sets

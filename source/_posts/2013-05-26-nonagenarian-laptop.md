@@ -3,6 +3,7 @@ layout: post
 title: Preparing a Mac laptop for your Grandma
 date: 2013-05-26
 thumbnail: /images/prefs.png
+comments: true
 ---
 
 My grandma got a new laptop for Mother's Day.  She's in her nineties, and first

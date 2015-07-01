@@ -4,6 +4,7 @@ layout: post
 title: NYPD crash data band-aid
 date: 2012-02-16
 thumbnail: /images/bandaid.png
+comments: true
 ---
 
 Yesterday, [Streetsblog][] wrote about the previous day's New York

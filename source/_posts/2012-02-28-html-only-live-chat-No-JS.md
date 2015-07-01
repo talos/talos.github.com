@@ -4,6 +4,7 @@ layout: post
 title: JS-Free Live Chat
 date: 2012-02-28
 thumbnail: /images/ie4-cropped.png
+comments: true
 ---
 
 I built a [real-time web-based chat][] without a line of client-side code.  No

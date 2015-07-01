@@ -4,6 +4,7 @@ title: New NYC buildings less efficient
 date: 2013-07-05
 excerpt: Large buildings constructed in New York City since 1935 are by today's standards less energy efficient.
 thumbnail: /images/efficiency.png
+comments: true
 ---
 
 Large buildings constructed in New York City since 1935 are by today's
