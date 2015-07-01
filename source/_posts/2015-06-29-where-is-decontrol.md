@@ -41,13 +41,16 @@ advocates, but it provides cover for landlords who fail to tell the state
 loophole in the law -- and failure to do so could be an indication that they
 are overcharging their tenants.
 
+If a landlord doesn't like charging the legal rent, they can simply "forget" to
+register.  It's up to the tenant to take them to court to comply.
+
 ### Hidden in plain sight
 
-Remarkably, the percentage of stabilized apartments per building over time is hidden
-in plain sight, in every building's property tax bills.  With help from a few
-civic hackers, I built [taxbills.nyc](http://taxbills.nyc), a collection of
-every tax bill going back to 2008 for every building that might be stabilized
-in New York City.
+Remarkably, the number of stabilized apartments in each building over the last
+seven years is hidden in plain sight, in property tax bills.  With help from
+a few civic hackers, I built [taxbills.nyc](http://taxbills.nyc), a collection
+of every tax bill going back to 2008 for every building that might be
+stabilized in New York City.
 
 Putting together this site required downloading hundreds of thousands of tax
 bills PDFs over several months because New York City's [Department of
