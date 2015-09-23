@@ -65,13 +65,13 @@ free online.  More on that in the next post.
   [4]: https://www.muckrock.com/foi/new-york-city-17/all-property-tax-documents-on-nycproperty-17246/#comm-146539
 
 Using this data, I've put together [a
-map](https://docker4data.cartodb.com/viz/766a0f32-1ea1-11e5-b267-0e49835281d6/public_map)
+map](https://docker4data.cartodb.com/viz/766a0f32-1ea1-11e5-b267-0e49835281d6/embed_map)
 that shows precisely where stabilized apartments have disappeared, remained,
 or been constructed between 2007 and 2014.
 
 <noscript>![Changes in stabilized apartment counts 2007-2014](/images/stabilization.jpg)[5]</noscript>
 
-  [5]: https://docker4data.cartodb.com/viz/766a0f32-1ea1-11e5-b267-0e49835281d6/public_map
+  [5]: https://docker4data.cartodb.com/viz/766a0f32-1ea1-11e5-b267-0e49835281d6/embed_map
 
 <iframe width='100%' height='520' frameborder='0'
 src='https://docker4data.cartodb.com/viz/766a0f32-1ea1-11e5-b267-0e49835281d6/embed_map'
