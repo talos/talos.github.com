@@ -6,8 +6,6 @@ group :development do
   gem 'rouge'  # replaces pygments.rb
   gem 'RedCloth'
   gem 'haml'
-  gem 'sassc'  # replaces sass (faster, maintained)
-  gem 'sass-globbing'
   gem 'rubypants'
   gem 'rb-fsevent'
   gem 'stringex'
