@@ -102,3 +102,29 @@ posts this may slow down page load times.
     site.typekit_kitid: nil
 
 An Adobe [Typekit](https://typekit.com) kit ID for including webfonts.
+
+## Building the Site
+
+This is a Jekyll 4.3 site using Ruby 3.3 (managed via [mise](https://mise.jdx.dev/)).
+
+### Install dependencies
+
+```bash
+bundle install
+```
+
+### Build the static site
+
+```bash
+bundle exec jekyll build
+```
+
+This compiles the `source/` directory into `public/`.
+
+### Local development with live reload
+
+```bash
+bundle exec jekyll serve
+```
+
+Then open http://localhost:4000 in your browser.
