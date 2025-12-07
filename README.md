@@ -128,3 +128,15 @@ bundle exec jekyll serve
 ```
 
 Then open http://localhost:4000 in your browser.
+
+## Deploying the site
+
+After building, copy the contents of public (gitignore'd) to VCS.
+
+```bash
+git checkout master
+cp -R public/* .
+git add .
+git commit -m '<your commit message>'
+git push origin master
+```
