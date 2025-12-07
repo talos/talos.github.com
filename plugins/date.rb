@@ -57,14 +57,19 @@ end
 
 module Jekyll
 
-  class Post
+  class Document
     include Octopress::Date
 
     # Convert this Convertible's data to a Hash suitable for use by Liquid.
     # Overrides the default return data and adds any date-specific liquid attributes
     alias :super_to_liquid :to_liquid
     def to_liquid
-      super_to_liquid.deep_merge(liquid_date_attributes)
+      drop = super_to_liquid
+      liquid_date_attributes.each do |key, value|
+        drop.content_methods << key if drop.respond_to?(:content_methods)
+        self.data[key] = value
+      end
+      drop
     end
   end
 
@@ -75,7 +80,12 @@ module Jekyll
     # Overrides the default return data and adds any date-specific liquid attributes
     alias :super_to_liquid :to_liquid
     def to_liquid
-      super_to_liquid.deep_merge(liquid_date_attributes)
+      drop = super_to_liquid
+      liquid_date_attributes.each do |key, value|
+        drop.content_methods << key if drop.respond_to?(:content_methods)
+        self.data[key] = value
+      end
+      drop
     end
   end
 end

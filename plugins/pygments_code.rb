@@ -1,9 +1,9 @@
-require 'pygments'
+require 'rouge'
 require 'fileutils'
 require 'digest/md5'
 
-PYGMENTS_CACHE_DIR = File.expand_path('../../.pygments-cache', __FILE__)
-FileUtils.mkdir_p(PYGMENTS_CACHE_DIR)
+ROUGE_CACHE_DIR = File.expand_path('../../.pygments-cache', __FILE__)
+FileUtils.mkdir_p(ROUGE_CACHE_DIR)
 
 module HighlightCode
   def highlight(str, lang)
@@ -11,25 +11,29 @@ module HighlightCode
     lang = 'objc' if lang == 'm'
     lang = 'perl' if lang == 'pl'
     lang = 'yaml' if lang == 'yml'
-    str = pygments(str, lang).match(/<pre>(.+)<\/pre>/m)[1].to_s.gsub(/ *$/, '') #strip out divs <div class="highlight">
+    str = rouge_highlight(str, lang).match(/<pre>(.+)<\/pre>/m)[1].to_s.gsub(/ *$/, '') #strip out divs <div class="highlight">
     tableize_code(str, lang)
   end
 
-  def pygments(code, lang)
-    if defined?(PYGMENTS_CACHE_DIR)
-      path = File.join(PYGMENTS_CACHE_DIR, "#{lang}-#{Digest::MD5.hexdigest(code)}.html")
+  def rouge_highlight(code, lang)
+    if defined?(ROUGE_CACHE_DIR)
+      path = File.join(ROUGE_CACHE_DIR, "#{lang}-#{Digest::MD5.hexdigest(code)}.html")
       if File.exist?(path)
         highlighted_code = File.read(path)
       else
         begin
-          highlighted_code = Pygments.highlight(code, :lexer => lang, :formatter => 'html', :options => {:encoding => 'utf-8', :startinline => true})
-        rescue MentosError
-          raise "Pygments can't parse unknown language: #{lang}."
+          formatter = Rouge::Formatters::HTML.new
+          lexer = Rouge::Lexer.find_fancy(lang, code) || Rouge::Lexers::PlainText
+          highlighted_code = "<pre>" + formatter.format(lexer.lex(code)) + "</pre>"
+        rescue => e
+          raise "Rouge can't parse unknown language: #{lang}. Error: #{e.message}"
         end
         File.open(path, 'w') {|f| f.print(highlighted_code) }
       end
     else
-      highlighted_code = Pygments.highlight(code, :lexer => lang, :formatter => 'html', :options => {:encoding => 'utf-8', :startinline => true})
+      formatter = Rouge::Formatters::HTML.new
+      lexer = Rouge::Lexer.find_fancy(lang, code) || Rouge::Lexers::PlainText
+      highlighted_code = "<pre>" + formatter.format(lexer.lex(code)) + "</pre>"
     end
     highlighted_code
   end

@@ -46,9 +46,9 @@ module Jekyll
     end
   end
 
-  # Monkey patch for the Jekyll Post class. For the original class,
-  # see: https://github.com/mojombo/jekyll/blob/master/lib/jekyll/post.rb
-  class Post
+  # Monkey patch for the Jekyll Document class (Posts in Jekyll 4).
+  # For the original class, see Jekyll 4 documentation
+  class Document
 
     # Copy the #write method to #old_write, so we can redefine #write
     # method.
