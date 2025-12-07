@@ -13,10 +13,10 @@ body {
 }
 
 .hentry .entry-title {
-  font-variant: small-caps;
+  /*font-variant: small-caps;*/
   font-size: 2em;
   margin-bottom: 0.5em;
-  letter-spacing: 0.2em;
+  /*letter-spacing: 0.2em;*/
 }
 
 .hentry .entry-title::first-letter {
@@ -175,10 +175,10 @@ blockquote cite:before {
 /* Lettrines */
 .lettrine > p:first-child::first-letter, .lettrine > h2:first-child + p::first-letter {
   line-height: 0.7;
-  margin: 0.225em 0.159em 0 0;
-  float: left;
+  /*margin: 0.225em 0.159em 0 0; */
+  /* float: left; */
   text-transform: capitalize;
-  font-size: 3.15em;
+  font-size: 2.15em;
 }
 
 .pullquote-right:before,
@@ -480,7 +480,7 @@ article .entry-title {
 
 article .meta {
   color: #999999;
-  font-variant: small-caps;
+  /*font-variant: small-caps;*/
 }
 
 article footer .meta {
