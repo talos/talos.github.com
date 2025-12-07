@@ -46,7 +46,7 @@
 
 <body >
   
-  <header role="banner" class="hidden">
+  <header role="banner">
   <h1><a href="/">Accursed Ware</a></h1>
 
 
@@ -79,10 +79,6 @@
   <header>
     
       
-        
-          
-        
-      
       
       <h1 class="entry-title">Introducing NYC Crashmapper</h1>
     
@@ -97,18 +93,16 @@
 
 
 
-  
 
 
-
-<time datetime="2013-07-26T00:00:00-04:00" data-updated="true">Jul 26<span>th</span>, 2013</time>
+<time datetime="2013-07-26T00:00:00-07:00" data-updated="true">Jul 26<span>th</span>, 2013</time>
       </p>
     
   </header>
 
 
-<div class="entry-content lettrine"><p>For over a year, I&rsquo;ve been archiving and processing the New York City Police
-Department&rsquo;s collision data on the <a href="http://nypd.openscrape.com/">Crash Data Band-Aid</a>.</p>
+<div class="entry-content lettrine"><p>For over a year, I’ve been archiving and processing the New York City Police
+Department’s collision data on the <a href="http://nypd.openscrape.com/">Crash Data Band-Aid</a>.</p>
 
 <p>With some help from <a href="https://github.com/talos/nypd-crash-data-bandaid#credit">generous people</a>, all valid intersections have been
 geocoded in the past several months.  So now all the collision data, in addition
@@ -118,19 +112,19 @@ browser using <a href="http://nyc.crashmapper.com">Crashmapper</a>!</p>
 <p><a href="http://nyc.crashmapper.com"><img src="/images/nyc-crashmapper.jpg" alt="NYC Crashmapper" /></a></p>
 
 <p>The project is free and open source, you can browse the code <a href="https://github.com/talos/nypd-crash-data-bandaid/">on Github</a>
-(it&rsquo;s in the <code>map</code> directory).</p>
+(it’s in the <code class="language-plaintext highlighter-rouge">map</code> directory).</p>
 
-<p>Building the map&rsquo;s been fun.  There&rsquo;s no server-side app &mdash; it&rsquo;s just
-a static site on <a href="https://aws.amazon.com/s3/">S3</a> &mdash; and all data points for some 30K intersections
+<p>Building the map’s been fun.  There’s no server-side app — it’s just
+a static site on <a href="https://aws.amazon.com/s3/">S3</a> — and all data points for some 30K intersections
 over more than 24 months are loaded into your browser for fast analysis.  The
-base layers are from <a href="http://openstreetmap.org/">OSM</a>, and the mapping library is <a href="http://leafletjs.com/">Leaflet</a>.  I&rsquo;m
+base layers are from <a href="http://openstreetmap.org/">OSM</a>, and the mapping library is <a href="http://leafletjs.com/">Leaflet</a>.  I’m
 using a slightly optimized <a href="https://github.com/talos/Leaflet.markercluster/tree/nonlocking-addlayers">fork</a> of the awesome <a href="https://github.com/Leaflet/Leaflet.markercluster">Leaflet.markercluster</a>
-plugin.  The &ldquo;heatmap&rdquo; is really a bunch of CSS drop shadows around marker
+plugin.  The “heatmap” is really a bunch of CSS drop shadows around marker
 clusters.  The real deep-link custom URLs are possible by setting the error
-page on S3 to <code>index.html</code>, so that all links are served up through the app&rsquo;s
+page on S3 to <code class="language-plaintext highlighter-rouge">index.html</code>, so that all links are served up through the app’s
 <a href="http://backbonejs.org/">Backbone</a> router.</p>
 
-<p>Crashmapper could be adapted to your town.  Contact me on the left if you&rsquo;re
+<p>Crashmapper could be adapted to your town.  Contact me on the left if you’re
 interested!</p>
 </div>
 
@@ -138,8 +132,6 @@ interested!</p>
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">John Krauss</span></span>
 
       
@@ -151,11 +143,9 @@ interested!</p>
 
 
 
-  
 
 
-
-<time datetime="2013-07-26T00:00:00-04:00" data-updated="true">Jul 26<span>th</span>, 2013</time>
+<time datetime="2013-07-26T00:00:00-07:00" data-updated="true">Jul 26<span>th</span>, 2013</time>
       
 
 
@@ -163,10 +153,10 @@ interested!</p>
     <p class="meta">
       
         
-          <a class="basic-alignment left" href="/new-google-maps-mutilates-biking" title="Previous Post: New Google Maps Mutilates Bike Layer">&larr;<span class="hide-mobile">&nbsp;New Google Maps Mutilates Bike Layer</span></a>
+          <a class="basic-alignment left" href="/new-google-maps-mutilates-biking/" title="Previous Post: New Google Maps Mutilates Bike Layer">&larr;<span class="hide-mobile">&nbsp;New Google Maps Mutilates Bike Layer</span></a>
         
         
-          <a class="basic-alignment right" href="/installing-youtube-viewer" title="Next Post: A YouTube CLI for Mac"><span class="hide-mobile">A YouTube CLI for Mac&nbsp;</span>&rarr;</a>
+          <a class="basic-alignment right" href="/installing-youtube-viewer/" title="Next Post: A YouTube CLI for Mac"><span class="hide-mobile">A YouTube CLI for Mac&nbsp;</span>&rarr;</a>
         
       
     </p>
@@ -199,8 +189,8 @@ interested!</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.johnkrauss.com/introducing-nyc-crashmapper';
-        var disqus_url = 'http://blog.johnkrauss.com/introducing-nyc-crashmapper';
+        var disqus_identifier = 'http://blog.johnkrauss.com/introducing-nyc-crashmapper/';
+        var disqus_url = 'http://blog.johnkrauss.com/introducing-nyc-crashmapper/';
         var disqus_script = 'embed.js';
       
     (function () {

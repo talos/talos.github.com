@@ -46,7 +46,7 @@
 
 <body >
   
-  <header role="banner" class="hidden">
+  <header role="banner">
   <h1><a href="/">Accursed Ware</a></h1>
 
 
@@ -79,10 +79,6 @@
   <header>
     
       
-        
-          
-        
-      
       
       <h1 class="entry-title">JS-Free Live Chat</h1>
     
@@ -97,11 +93,9 @@
 
 
 
-  
 
 
-
-<time datetime="2012-02-28T00:00:00-05:00" data-updated="true">Feb 28<span>th</span>, 2012</time>
+<time datetime="2012-02-28T00:00:00-08:00" data-updated="true">Feb 28<span>th</span>, 2012</time>
       </p>
     
   </header>
@@ -125,28 +119,28 @@ of Python using <a href="http://www.brubeck.io/">Brubeck</a>.  It would make for
 exclusively server-side JavaScript.</p>
 
 <p>All the code for it is <a href="http://www.github.com/talos/no.js">on GitHub</a>, so all you Node-hackers should go ahead
-and build a JavaScript edition&hellip;</p>
+and build a JavaScript edition…</p>
 
 <hr />
 
-<p>Why&rsquo;d I do this, and how does it work?</p>
+<p>Why’d I do this, and how does it work?</p>
 
-<p>I&rsquo;m building a real-time browser-based multiplayer game, using the same
+<p>I’m building a real-time browser-based multiplayer game, using the same
 templates (<a href="http://mustache.github.com/">Mustache</a>) on the client and server-side.  Instead of messing
 around with WebSockets, I used AJAX long polling to push updates from the
 server to the client.  Since the server could render all the views, I set up a
-little <code>Accept</code> header goodness so that browsers with JavaScript turned off
-could still play&hellip; but the problem of pushing the state remained.</p>
+little <code class="language-plaintext highlighter-rouge">Accept</code> header goodness so that browsers with JavaScript turned off
+could still play… but the problem of pushing the state remained.</p>
 
-<p>There is the peculiarly irritating <code>&lt;meta http-equiv="refresh" ...&gt;</code> tag,
-embedded in my consciousness from some late-90s &ldquo;dynamic&rdquo; interfaces.  Every
+<p>There is the peculiarly irritating <code class="language-plaintext highlighter-rouge">&lt;meta http-equiv="refresh" ...&gt;</code> tag,
+embedded in my consciousness from some late-90s “dynamic” interfaces.  Every
 few seconds, the page would flash to refresh with possibly new content.
 Maddeningly, you would be thrown back to the top of an identical (or very
 slightly modified) page.</p>
 
-<p>Throwing the meta refresh inside a <code>&lt;noscript /&gt;</code> would make the game kind-of
-work, while not irritating the majority of JavaScript-enabled users.
-The refresh still wouldn&rsquo;t be live, though. And the more frequent it was,
+<p>Throwing the meta refresh inside a <code class="language-plaintext highlighter-rouge">&lt;noscript /&gt;</code> would make the game kind-of
+work, while not irritating the majority of JavaScript-enabled users. 
+The refresh still wouldn’t be live, though. And the more frequent it was,
 the more irritating it would be.</p>
 
 <p>So why not just long-poll the whole page?</p>
@@ -156,8 +150,8 @@ page works the same while a new page is loading.  The server can dictate
 exactly when the page should reload.</p>
 
 <p>The stakes are higher than when long polling an AJAX request.  If the server
-doesn&rsquo;t get back to the client with a response eventually, the browser doesn&rsquo;t
-merely log to the error console &mdash; it replaces the page with a message that
+doesn’t get back to the client with a response eventually, the browser doesn’t
+merely log to the error console – it replaces the page with a message that
 the server is down.  Responding with identical content at least twice a minute
 prevents this.</p>
 
@@ -172,7 +166,6 @@ header:</p>
 &lt;/noscript&gt;
 </pre>
 
-
 <p>And this in the body:</p>
 
 <pre>
@@ -181,68 +174,61 @@ header:</p>
 &#123;&#123;/content&#125;&#125;
 </pre>
 
-
 <p>The function to generate content, using <a href="http://www.redis.io/">Redis</a>, would look like:</p>
 
-<div>
-  <pre><code class='python'>def get_page_content(old_id):
-    # If an old ID was specified, and it&#39;s equal to the current ID,
-    # subscribe to updates on the &#39;updates&#39; channel of our Redis database.
-    # Then listen for an update.  Whatever triggers the update should also
-    # modify the ID.
-    if old_id and old_id == db.get(&#39;id&#39;):
-        pubsub = db.pubsub()
-        pubsub.subscribe(&#39;updates&#39;)
-        pubsub.listen().next() 
-    return {
-        # Populate the refresh header in the template with the new
-        # ID.  The `0;` means that the browser will immediately
-        # try to reload the page -- but will hang, because the
-        # reload is for the new ID. 
-        &#39;refresh&#39;: &quot;0; url=?id=%s&quot; % db.get(&#39;id&#39;),
-        # This would be a separate function, but you get the point.
-        &#39;content&#39;: json.loads(db.get(&#39;content&#39;)) 
-    }</code></pre>
-</div>
-
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">get_page_content</span><span class="p">(</span><span class="n">old_id</span><span class="p">):</span>
+    <span class="c1"># If an old ID was specified, and it's equal to the current ID,
+</span>    <span class="c1"># subscribe to updates on the 'updates' channel of our Redis database.
+</span>    <span class="c1"># Then listen for an update.  Whatever triggers the update should also
+</span>    <span class="c1"># modify the ID.
+</span>    <span class="k">if</span> <span class="n">old_id</span> <span class="ow">and</span> <span class="n">old_id</span> <span class="o">==</span> <span class="n">db</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">id</span><span class="sh">'</span><span class="p">):</span>
+        <span class="n">pubsub</span> <span class="o">=</span> <span class="n">db</span><span class="p">.</span><span class="nf">pubsub</span><span class="p">()</span>
+        <span class="n">pubsub</span><span class="p">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="sh">'</span><span class="s">updates</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">pubsub</span><span class="p">.</span><span class="nf">listen</span><span class="p">().</span><span class="nf">next</span><span class="p">()</span> 
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="c1"># Populate the refresh header in the template with the new
+</span>        <span class="c1"># ID.  The `0;` means that the browser will immediately
+</span>        <span class="c1"># try to reload the page -- but will hang, because the
+</span>        <span class="c1"># reload is for the new ID. 
+</span>        <span class="sh">'</span><span class="s">refresh</span><span class="sh">'</span><span class="p">:</span> <span class="sh">"</span><span class="s">0; url=?id=%s</span><span class="sh">"</span> <span class="o">%</span> <span class="n">db</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">id</span><span class="sh">'</span><span class="p">),</span>
+        <span class="c1"># This would be a separate function, but you get the point.
+</span>        <span class="sh">'</span><span class="s">content</span><span class="sh">'</span><span class="p">:</span> <span class="n">json</span><span class="p">.</span><span class="nf">loads</span><span class="p">(</span><span class="n">db</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">content</span><span class="sh">'</span><span class="p">))</span> 
+    <span class="p">}</span></code></pre></figure>
 
 <p>The handler, using <a href="http://www.brubeck.io/">Brubeck</a> with <a href="http://www.gevent.org/">gevent</a>, would look like:</p>
 
-<div>
-  <pre><code class='python'>class PageHandler(MustacheRendering):
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">PageHandler</span><span class="p">(</span><span class="n">MustacheRendering</span><span class="p">):</span>
 
-    # The route is specified elsewhere, but this method will be called
-    # when there is a vanilla HTTP GET for the page.
-    def get(self):
-        # Pull out the last loaded page ID.  Will be `None` if none was
-        # specified.
-        old_id = self.get_argument(&#39;id&#39;)
-        try:
-            # See `get_page_content` above.
-            context = gevent.timeout.with_timeout(30, get_page_content, old_id)
-            return self.render_template(&#39;page&#39;, **context)
-        except gevent.timeout.Timeout:
-            # The timeout above was for thirty seconds.  If nothing changes
-            # after that time, the client is simply redirected back to the
-            # original page with no ID argument at all.  This will cause
-            # an immediate reload.
-            #
-            # We do this instead of redirecting to `&quot;?id=%s&quot; % old_id` 
-            # because that would cause another hang, and possibly another
-            # 3xx response if we hit this timeout again.  If nothing
-            # changes for a few minutes, which is likely, then the repeated
-            # redirects would wipe the page with a `too many redirects`
-            # error.  This avoids that eventuality. :)
-            return self.redirect(&#39;?&#39;)</code></pre>
-</div>
-
+    <span class="c1"># The route is specified elsewhere, but this method will be called
+</span>    <span class="c1"># when there is a vanilla HTTP GET for the page.
+</span>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="c1"># Pull out the last loaded page ID.  Will be `None` if none was
+</span>        <span class="c1"># specified.
+</span>        <span class="n">old_id</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">get_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">id</span><span class="sh">'</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># See `get_page_content` above.
+</span>            <span class="n">context</span> <span class="o">=</span> <span class="n">gevent</span><span class="p">.</span><span class="n">timeout</span><span class="p">.</span><span class="nf">with_timeout</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">get_page_content</span><span class="p">,</span> <span class="n">old_id</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="nf">render_template</span><span class="p">(</span><span class="sh">'</span><span class="s">page</span><span class="sh">'</span><span class="p">,</span> <span class="o">**</span><span class="n">context</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">gevent</span><span class="p">.</span><span class="n">timeout</span><span class="p">.</span><span class="n">Timeout</span><span class="p">:</span>
+            <span class="c1"># The timeout above was for thirty seconds.  If nothing changes
+</span>            <span class="c1"># after that time, the client is simply redirected back to the
+</span>            <span class="c1"># original page with no ID argument at all.  This will cause
+</span>            <span class="c1"># an immediate reload.
+</span>            <span class="c1">#
+</span>            <span class="c1"># We do this instead of redirecting to `"?id=%s" % old_id` 
+</span>            <span class="c1"># because that would cause another hang, and possibly another
+</span>            <span class="c1"># 3xx response if we hit this timeout again.  If nothing
+</span>            <span class="c1"># changes for a few minutes, which is likely, then the repeated
+</span>            <span class="c1"># redirects would wipe the page with a `too many redirects`
+</span>            <span class="c1"># error.  This avoids that eventuality. :)
+</span>            <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="nf">redirect</span><span class="p">(</span><span class="sh">'</span><span class="s">?</span><span class="sh">'</span><span class="p">)</span></code></pre></figure>
 
 <p>Neato!</p>
 
-<p>No.JS is pulled from the game&rsquo;s chat component.  Chat is tricky, because a
-refresh wipes forms.  You&rsquo;re typing, someone says something&hellip; and everything
+<p>No.JS is pulled from the game’s chat component.  Chat is tricky, because a
+refresh wipes forms.  You’re typing, someone says something… and everything
 you were about to say goes to the bitbucket.  Keeping the chat messages inside
-an <code>&lt;iframe /&gt;</code> solves this problem.  I switched it out for a regular frame
+an <code class="language-plaintext highlighter-rouge">&lt;iframe /&gt;</code> solves this problem.  I switched it out for a regular frame
 in No.JS to support older browsers.</p>
 </div>
 
@@ -250,8 +236,6 @@ in No.JS to support older browsers.</p>
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">John Krauss</span></span>
 
       
@@ -263,11 +247,9 @@ in No.JS to support older browsers.</p>
 
 
 
-  
 
 
-
-<time datetime="2012-02-28T00:00:00-05:00" data-updated="true">Feb 28<span>th</span>, 2012</time>
+<time datetime="2012-02-28T00:00:00-08:00" data-updated="true">Feb 28<span>th</span>, 2012</time>
       
 
 
@@ -275,10 +257,10 @@ in No.JS to support older browsers.</p>
     <p class="meta">
       
         
-          <a class="basic-alignment left" href="/nypd-crash-data-band-aid" title="Previous Post: NYPD crash data band-aid">&larr;<span class="hide-mobile">&nbsp;NYPD crash data band-aid</span></a>
+          <a class="basic-alignment left" href="/nypd-crash-data-band-aid/" title="Previous Post: NYPD crash data band-aid">&larr;<span class="hide-mobile">&nbsp;NYPD crash data band-aid</span></a>
         
         
-          <a class="basic-alignment right" href="/nonagenarian-laptop" title="Next Post: Preparing a Mac laptop for your Grandma"><span class="hide-mobile">Preparing a Mac laptop for your Grandma&nbsp;</span>&rarr;</a>
+          <a class="basic-alignment right" href="/nonagenarian-laptop/" title="Next Post: Preparing a Mac laptop for your Grandma"><span class="hide-mobile">Preparing a Mac laptop for your Grandma&nbsp;</span>&rarr;</a>
         
       
     </p>
@@ -311,8 +293,8 @@ in No.JS to support older browsers.</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.johnkrauss.com/html-only-live-chat-No-JS';
-        var disqus_url = 'http://blog.johnkrauss.com/html-only-live-chat-No-JS';
+        var disqus_identifier = 'http://blog.johnkrauss.com/html-only-live-chat-No-JS/';
+        var disqus_url = 'http://blog.johnkrauss.com/html-only-live-chat-No-JS/';
         var disqus_script = 'embed.js';
       
     (function () {

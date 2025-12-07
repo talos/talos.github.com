@@ -46,7 +46,7 @@
 
 <body >
   
-  <header role="banner" class="hidden">
+  <header role="banner">
   <h1><a href="/">Accursed Ware</a></h1>
 
 
@@ -79,10 +79,6 @@
   <header>
     
       
-        
-          
-        
-      
       
       <h1 class="entry-title">A YouTube CLI for Mac</h1>
     
@@ -97,103 +93,77 @@
 
 
 
-  
 
 
-
-<time datetime="2013-07-29T00:00:00-04:00" data-updated="true">Jul 29<span>th</span>, 2013</time>
+<time datetime="2013-07-29T00:00:00-07:00" data-updated="true">Jul 29<span>th</span>, 2013</time>
       </p>
     
   </header>
 
 
 <div class="entry-content lettrine"><p>Out of laziness, I mostly listen to music off <a href="http://youtube.com">YouTube</a> these days.  As a
-library it&rsquo;s pretty unbeatable, and I don&rsquo;t have to worry about plugging in an
+library it’s pretty unbeatable, and I don’t have to worry about plugging in an
 external HDD with a big library.</p>
 
-<p>Using the browser for selecting songs is a drag, but I&rsquo;ve always used
+<p>Using the browser for selecting songs is a drag, but I’ve always used
 visual interfaces (originally iTunes, then a combination of <a href="https://videolan.org/vlc/">VLC</a> and
 <a href="http://download.cnet.com/Vox/3000-2139_4-145817.html#rateit">Vox</a>).  Also, Flash player munches on your battery pretty bad.  And
 I generally try to avoid executing anything with Flash.</p>
 
-<p>Turns out there&rsquo;s a CLI for YouTube, <a href="https://github.com/trizen/youtube-viewer">youtube-viewer</a> with vim-like
-keybindings no less!  Since it requires a newer version of Perl than what&rsquo;s
+<p>Turns out there’s a CLI for YouTube, <a href="https://github.com/trizen/youtube-viewer">youtube-viewer</a> with vim-like
+keybindings no less!  Since it requires a newer version of Perl than what’s
 bundled with OSX, you need to do a little work to get it running.</p>
 
-<h3>Perl 5.16.0</h3>
+<h3 id="perl-5160">Perl 5.16.0</h3>
 
-<p>The Perl version bundled with OSX in <code>/usr/bin/perl</code> with Mac OSX 10.7.5, is
-5.12.3.  Considering Apple&rsquo;s tendency to let the CLI tools bundled with OSX
-rot, I doubt newer versions have a more up-to-date version.  It&rsquo;s entirely
+<p>The Perl version bundled with OSX in <code class="language-plaintext highlighter-rouge">/usr/bin/perl</code> with Mac OSX 10.7.5, is
+5.12.3.  Considering Apple’s tendency to let the CLI tools bundled with OSX
+rot, I doubt newer versions have a more up-to-date version.  It’s entirely
 possible that some system-level functionality depends on an old version of
 Perl, so updating at the root level would be a Very Bad Idea.</p>
 
-<p>Fortunately, there&rsquo;s a <a href="http://learn.perl.org/installing/osx.html">good setup tool</a> available on <a href="http://learn.perl.org">learn.perl.org</a>:</p>
+<p>Fortunately, there’s a <a href="http://learn.perl.org/installing/osx.html">good setup tool</a> available on <a href="http://learn.perl.org">learn.perl.org</a>:</p>
 
-<div>
-  <pre><code class='bash'>$ curl -L http://xrl.us/installperlosx | bash</code></pre>
-</div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="nv">$ </span>curl <span class="nt">-L</span> http://xrl.us/installperlosx | bash</code></pre></figure>
 
+<p>This will install 5.16.0 in <code class="language-plaintext highlighter-rouge">~/perl5/perlbrew</code> and add a line to your
+<code class="language-plaintext highlighter-rouge">.bashrc</code>, updating your env Perl version.</p>
 
-<p>This will install 5.16.0 in <code>~/perl5/perlbrew</code> and add a line to your
-<code>.bashrc</code>, updating your env Perl version.</p>
+<h3 id="mplayer">Mplayer</h3>
 
-<h3>Mplayer</h3>
+<p>This one’s easy.</p>
 
-<p>This one&rsquo;s easy.</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="nv">$ </span>brew <span class="nb">install </span>mplayer</code></pre></figure>
 
-<div>
-  <pre><code class='bash'>$ brew install mplayer</code></pre>
-</div>
+<p><br /></p>
 
-
-
-
-<br>
-
-
-<h3>youtube-viewer</h3>
+<h3 id="youtube-viewer">youtube-viewer</h3>
 
 <p>Snag the source:</p>
 
-<div>
-  <pre><code class='bash'>$ git clone git@github.com:trizen/youtube-viewer.git</code></pre>
-</div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="nv">$ </span>git clone git@github.com:trizen/youtube-viewer.git</code></pre></figure>
 
-
-<p>Follow the instructions, but drop the last <code>sudo</code> &mdash; provided you make
-sure to execute <code>Build.PL</code> with your perlbrew (rather than system) Perl, then
+<p>Follow the instructions, but drop the last <code class="language-plaintext highlighter-rouge">sudo</code> — provided you make
+sure to execute <code class="language-plaintext highlighter-rouge">Build.PL</code> with your perlbrew (rather than system) Perl, then
 it will be installed in a user-specific directory.</p>
 
-<div>
-  <pre><code class='bash'>$ perl Build.PL
-    $ ./Build
-    $ ./Build test
-    $ ./Build install</code></pre>
-</div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="nv">$ </span>perl Build.PL
+    <span class="nv">$ </span>./Build
+    <span class="nv">$ </span>./Build <span class="nb">test</span>
+    <span class="nv">$ </span>./Build <span class="nb">install</span></code></pre></figure>
 
+<p><br /></p>
 
+<h1 id="usage">Usage</h1>
 
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="nv">$ </span>youtube-viewer
+    <span class="o">=&gt;&gt;</span> Search <span class="k">for </span>YouTube videos <span class="o">(</span>:h <span class="k">for </span><span class="nb">help</span><span class="o">)</span></code></pre></figure>
 
-<br>
-
-
-<h1>Usage</h1>
-
-<div>
-  <pre><code class='bash'>$ youtube-viewer
-    =&gt;&gt; Search for YouTube videos (:h for help)</code></pre>
-</div>
-
-
-<p>Or, if you don&rsquo;t want an MPlayer window popping up outside your Terminal while
+<p>Or, if you don’t want an MPlayer window popping up outside your Terminal while
 a video is playing:</p>
 
-<div>
-  <pre><code class='bash'>$ youtube-viewer -n
-    =&gt;&gt; Search for YouTube videos (:h for help)</code></pre>
-</div>
-
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="nv">$ </span>youtube-viewer <span class="nt">-n</span>
+    <span class="o">=&gt;&gt;</span> Search <span class="k">for </span>YouTube videos <span class="o">(</span>:h <span class="k">for </span><span class="nb">help</span><span class="o">)</span></code></pre></figure>
 
 <p>Enjoy!</p>
 </div>
@@ -202,8 +172,6 @@ a video is playing:</p>
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">John Krauss</span></span>
 
       
@@ -215,11 +183,9 @@ a video is playing:</p>
 
 
 
-  
 
 
-
-<time datetime="2013-07-29T00:00:00-04:00" data-updated="true">Jul 29<span>th</span>, 2013</time>
+<time datetime="2013-07-29T00:00:00-07:00" data-updated="true">Jul 29<span>th</span>, 2013</time>
       
 
 
@@ -227,10 +193,10 @@ a video is playing:</p>
     <p class="meta">
       
         
-          <a class="basic-alignment left" href="/introducing-nyc-crashmapper" title="Previous Post: Introducing NYC Crashmapper">&larr;<span class="hide-mobile">&nbsp;Introducing NYC Crashmapper</span></a>
+          <a class="basic-alignment left" href="/introducing-nyc-crashmapper/" title="Previous Post: Introducing NYC Crashmapper">&larr;<span class="hide-mobile">&nbsp;Introducing NYC Crashmapper</span></a>
         
         
-          <a class="basic-alignment right" href="/geoclient-for-crashmapper" title="Next Post: ⅕ of NYC collision data wrong"><span class="hide-mobile">⅕ of NYC collision data wrong&nbsp;</span>&rarr;</a>
+          <a class="basic-alignment right" href="/geoclient-for-crashmapper/" title="Next Post: ⅕ of NYC collision data wrong"><span class="hide-mobile">⅕ of NYC collision data wrong&nbsp;</span>&rarr;</a>
         
       
     </p>
@@ -263,8 +229,8 @@ a video is playing:</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.johnkrauss.com/installing-youtube-viewer';
-        var disqus_url = 'http://blog.johnkrauss.com/installing-youtube-viewer';
+        var disqus_identifier = 'http://blog.johnkrauss.com/installing-youtube-viewer/';
+        var disqus_url = 'http://blog.johnkrauss.com/installing-youtube-viewer/';
         var disqus_script = 'embed.js';
       
     (function () {

@@ -46,7 +46,7 @@
 
 <body >
   
-  <header role="banner" class="hidden">
+  <header role="banner">
   <h1><a href="/">Accursed Ware</a></h1>
 
 
@@ -79,10 +79,6 @@
   <header>
     
       
-        
-          
-        
-      
       
       <h1 class="entry-title">NYPD Crash Data Band-aid</h1>
     
@@ -97,17 +93,15 @@
 
 
 
-  
 
 
-
-<time datetime="2012-02-16T00:00:00-05:00" data-updated="true">Feb 16<span>th</span>, 2012</time>
+<time datetime="2012-02-16T00:00:00-08:00" data-updated="true">Feb 16<span>th</span>, 2012</time>
       </p>
     
   </header>
 
 
-<div class="entry-content lettrine"><p>Yesterday, <a href="http://www.streetsblog.org/2012/02/15/nypds-lax-crash-investigations-may-violate-state-law">Streetsblog</a> wrote about the previous day&rsquo;s New York
+<div class="entry-content lettrine"><p>Yesterday, <a href="http://www.streetsblog.org/2012/02/15/nypds-lax-crash-investigations-may-violate-state-law">Streetsblog</a> wrote about the previous day’s New York
 City Council hearing on traffic safety.  There have been several
 particularly gruesome incidents in the past year where New York
 drivers maimed and killed pedestrians and cyclists.  The New York City
@@ -117,66 +111,67 @@ families, and the press.</p>
 
 <p><a href="http://www.streetsblog.org/2012/02/15/nypds-lax-crash-investigations-may-violate-state-law">This part</a> stuck out to me:</p>
 
-<blockquote><p>Council Member Jessica Lappin got into an animated discussion with
+<blockquote>
+  <p>Council Member Jessica Lappin got into an animated discussion with
 Petito over traffic crash data. When Lappin asked why NYPD is
 releasing data in PDF form — and only after the council adopted
 legislation forcing the department to do so — Petito replied that the
-department is &ldquo;concerned with the integrity of the data itself.&rdquo;
+department is “concerned with the integrity of the data itself.”
 Petito said NYPD believes data released on a spreadsheet could be
-manipulated by people who want &ldquo;to make a point of some sort.&rdquo; An
+manipulated by people who want “to make a point of some sort.” An
 incredulous Lappin assured Petito that the public only wants to
-analyze the data to improve safety, not use it for &ldquo;evil.&rdquo;</p></blockquote>
+analyze the data to improve safety, not use it for “evil.”</p>
+</blockquote>
 
-<p>I already knew that they were finally releasing &mdash; after the Council
-forced them to &mdash; crash data as <a href="http://www.nyc.gov/html/nypd/html/traffic_reports/motor_vehicle_accident_data.shtml">idiotically obfuscated PDFs</a>, but
-reading that they justified this out of concern for &ldquo;the integrity of
-the data,&rdquo; was so galling that it goaded me into action. I would make the
+<p>I already knew that they were finally releasing – after the Council
+forced them to – crash data as <a href="http://www.nyc.gov/html/nypd/html/traffic_reports/motor_vehicle_accident_data.shtml">idiotically obfuscated PDFs</a>, but
+reading that they justified this out of concern for “the integrity of
+the data,” was so galling that it goaded me into action. I would make the
 data accessible as friendly, <a href="http://nypd.openscrape.com/">parseable CSVs</a>.</p>
 
-<p>After all, isn&rsquo;t the purpose of data to &ldquo;make a point of some sort&rdquo;?</p>
+<p>After all, isn’t the purpose of data to “make a point of some sort”?</p>
 
 <p>Since I am hosting copies of their data in a format (spreadsheets, oh
 my!) amenable to the forces of evil on my server, I recommend that you
 download the code to roll your own NYPD traffic crash CSVs:</p>
 
-<pre><code>git clone https://github.com/talos/nypd-crash-data-bandaid.git
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/talos/nypd-crash-data-bandaid.git
+</code></pre></div></div>
 
-<p>Once you&rsquo;ve got it, run the shell script:</p>
+<p>Once you’ve got it, run the shell script:</p>
 
-<pre><code>cd nypd-crash-data-bandaid/
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd nypd-crash-data-bandaid/
 ./download.sh
-</code></pre>
+</code></pre></div></div>
 
-<p>You&rsquo;ll need python, <a href="http://www.foolabs.com/xpdf/">xpdf</a>, and wget.  Full instructions are in the
+<p>You’ll need python, <a href="http://www.foolabs.com/xpdf/">xpdf</a>, and wget.  Full instructions are in the
 readme on <a href="http://www.github.com/talos/nypd-crash-data-bandaid">Github</a>.</p>
 
-<p>The NYPD replaces the previous month&rsquo;s files every month.  Thus I&rsquo;ve
+<p>The NYPD replaces the previous month’s files every month.  Thus I’ve
 included a sample crontab, which checks the site for a new PDFs every
-day.  Of course, they don&rsquo;t rename the files, which means that it&rsquo;s
+day.  Of course, they don’t rename the files, which means that it’s
 necessary to download one and do the PDF conversion merely to
 ascertain what month it applies to.  Incredible.</p>
 
-<p>There&rsquo;s an extra script, rss.py, which makes it easy to generate RSS feeds for when the NYPD has updated their data.  You can see it in action <a href="http://nypd.openscrape.com/feed.xml">here</a>.</p>
+<p>There’s an extra script, rss.py, which makes it easy to generate RSS feeds for when the NYPD has updated their data.  You can see it in action <a href="http://nypd.openscrape.com/feed.xml">here</a>.</p>
 
-<p>I&rsquo;d like to thank David Turner for writing the <a href="http://novalis.org/programs/scrapeintersections.txt">original</a> NYPD crash
-data PDF->text converter, which was only linked to in an article from
+<p>I’d like to thank David Turner for writing the <a href="http://novalis.org/programs/scrapeintersections.txt">original</a> NYPD crash
+data PDF-&gt;text converter, which was only linked to in an article from
 a <a href="http://www.streetsblog.org/2011/10/14/nypd-goes-out-of-its-way-to-obscure-street-safety-data/">few months back</a>.  I had to modify the output to reflect the
 multidimensionality of the vehicle types and accident categories in a
-flat file, but the parser itself was golden.  I&rsquo;d also like to thank
+flat file, but the parser itself was golden.  I’d also like to thank
 Matthew Kime, who came up with the band-aid idea for the name.</p>
 
 <p>Now we just need someone to compare this to the NYS Department of
-Transportation&rsquo;s crash data as visualized through Transportation
-Alternatives&#8217; <a href="http://crashstat.org/">CrashStat</a>, which only runs up 2009.</p>
+Transportation’s crash data as visualized through Transportation
+Alternatives’ <a href="http://crashstat.org/">CrashStat</a>, which only runs up 2009.</p>
+
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">John Krauss</span></span>
 
       
@@ -188,11 +183,9 @@ Alternatives&#8217; <a href="http://crashstat.org/">CrashStat</a>, which only ru
 
 
 
-  
 
 
-
-<time datetime="2012-02-16T00:00:00-05:00" data-updated="true">Feb 16<span>th</span>, 2012</time>
+<time datetime="2012-02-16T00:00:00-08:00" data-updated="true">Feb 16<span>th</span>, 2012</time>
       
 
 
@@ -200,10 +193,10 @@ Alternatives&#8217; <a href="http://crashstat.org/">CrashStat</a>, which only ru
     <p class="meta">
       
         
-          <a class="basic-alignment left" href="/2.2-million-jobs" title="Previous Post: The Long Reach of Industry Research">&larr;<span class="hide-mobile">&nbsp;The Long Reach of Industry Research</span></a>
+          <a class="basic-alignment left" href="/2.2-million-jobs/" title="Previous Post: The Long Reach of Industry Research">&larr;<span class="hide-mobile">&nbsp;The Long Reach of Industry Research</span></a>
         
         
-          <a class="basic-alignment right" href="/html-only-live-chat-No-JS" title="Next Post: JS-Free Live Chat"><span class="hide-mobile">JS-Free Live Chat&nbsp;</span>&rarr;</a>
+          <a class="basic-alignment right" href="/html-only-live-chat-No-JS/" title="Next Post: JS-Free Live Chat"><span class="hide-mobile">JS-Free Live Chat&nbsp;</span>&rarr;</a>
         
       
     </p>
@@ -236,8 +229,8 @@ Alternatives&#8217; <a href="http://crashstat.org/">CrashStat</a>, which only ru
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.johnkrauss.com/nypd-crash-data-band-aid';
-        var disqus_url = 'http://blog.johnkrauss.com/nypd-crash-data-band-aid';
+        var disqus_identifier = 'http://blog.johnkrauss.com/nypd-crash-data-band-aid/';
+        var disqus_url = 'http://blog.johnkrauss.com/nypd-crash-data-band-aid/';
         var disqus_script = 'embed.js';
       
     (function () {

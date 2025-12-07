@@ -46,7 +46,7 @@
 
 <body >
   
-  <header role="banner" class="hidden">
+  <header role="banner">
   <h1><a href="/">Accursed Ware</a></h1>
 
 
@@ -79,10 +79,6 @@
   <header>
     
       
-        
-          
-        
-      
       
       <h1 class="entry-title">Preparing a Mac Laptop for Your Grandma</h1>
     
@@ -97,169 +93,204 @@
 
 
 
-  
 
 
-
-<time datetime="2013-05-26T00:00:00-04:00" data-updated="true">May 26<span>th</span>, 2013</time>
+<time datetime="2013-05-26T00:00:00-07:00" data-updated="true">May 26<span>th</span>, 2013</time>
       </p>
     
   </header>
 
 
-<div class="entry-content lettrine"><p>My grandma got a new laptop for Mother&rsquo;s Day.  She&rsquo;s in her nineties, and first
+<div class="entry-content lettrine"><p>My grandma got a new laptop for Mother’s Day.  She’s in her nineties, and first
 started using a computer a few years ago.  Email, watching music on
 YouTube, and playing bridge online are now essential parts of her life.
 Her first computer was an old iBook, which still works fine, but the services
 she uses have rendered it unusable:</p>
 
-<h3>The pace of obsolecence on the Internet is unacceptable.</h3>
+<h3 id="the-pace-of-obsolecence-on-the-internet-is-unacceptable">The pace of obsolecence on the Internet is unacceptable.</h3>
 
 <p>A huge number of websites use JavaScript for questionable bells and whistles,
 under the assumption everyone has a really fast JS interpreter.  A PowerPC
-running OSX 10.4 simply can&rsquo;t run it fast enough, and these sites don&rsquo;t degrade
-gracefully &mdash; they freeze up.</p>
+running OSX 10.4 simply can’t run it fast enough, and these sites don’t degrade
+gracefully – they freeze up.</p>
 
-<p>Flash doesn&rsquo;t make this better.  Adobe simply gave up on this at a certain
+<p>Flash doesn’t make this better.  Adobe simply gave up on this at a certain
 point, and <a href="http://www.floodgap.com/software/tenfourfox/">Ten Four Fox</a>, which
-was her only option after a certain point, didn&rsquo;t really properly support Flash
-either.  Losing YouTube was harsh for her, and I can&rsquo;t imagine why it was
-really necessary &mdash; when she first got the computer, it worked fine.</p>
+was her only option after a certain point, didn’t really properly support Flash
+either.  Losing YouTube was harsh for her, and I can’t imagine why it was
+really necessary – when she first got the computer, it worked fine.</p>
 
 <p>The computer was fine, but the internet dropped support for her.  And in the
 most frustrating way: everything ran slower, broke in random and unexpected
 ways, and it was very hard to explain to her what was going on, why, or what to
 do about it.  Sadly, the only option was to get her a new computer.</p>
 
-<h3>Setting up a new Mac for an old person is an epic pain in the ass</h3>
+<h3 id="setting-up-a-new-mac-for-an-old-person-is-an-epic-pain-in-the-ass">Setting up a new Mac for an old person is an epic pain in the ass</h3>
 
-<p>It&rsquo;s probably not better on Windows or Linux distributions, and since she&rsquo;d
+<p>It’s probably not better on Windows or Linux distributions, and since she’d
 learned on a Mac, that was the only practical option.  Fortunately the
-interface didn&rsquo;t change too drastically between 10.4 and 10.8, but the factory
+interface didn’t change too drastically between 10.4 and 10.8, but the factory
 setup of the OS is piss poor for an old person.  Because either the guest
 account was active by default, or she (or someone else) accidentally activated
 it, I had the pleasure of setting her computer up to make it accessible to her
 several times.  So the steps got stuck in my head:</p>
 
 <ul>
-<li><p><strong>Disable the guest account.</strong>  Go to System Preferences, unlock
-your prefs, click on &ldquo;Guest User&rdquo;, and uncheck &ldquo;Allow Guests to log on to
-this computer&rdquo;.  Otherwise, it&rsquo;s possible to log on, set things up, save
-files, and set up bookmarks on Safari &mdash; and lose everything as soon as you
-log out.</p></li>
-<li><p><strong>Auto log in the correct account.</strong> In &ldquo;Security and Privacy&rdquo;, uncheck
-&ldquo;Require password for sleep and screen saver&rdquo;.  Uncheck &ldquo;Disable automatic
-login&rdquo;.  Select the proper user in &ldquo;Automatically log in as&rdquo;, enter their
-password, and press &ldquo;OK&rdquo;.  For bonus points, you could set up a separate
-non-admin account for them, although I didn&rsquo;t do this.</p></li>
-<li><p><strong>Allow apps only from the app store.</strong> I didn&rsquo;t do this, but I probably
-should have &mdash; she doesn&rsquo;t use any applications that aren&rsquo;t in-browser, so
-anything else is probably a security risk.</p></li>
-<li><p><strong>Make the cursor bigger.</strong> She could barely see the cursor on the new
+  <li>
+    <p><strong>Disable the guest account.</strong>  Go to System Preferences, unlock
+your prefs, click on “Guest User”, and uncheck “Allow Guests to log on to
+this computer”.  Otherwise, it’s possible to log on, set things up, save
+files, and set up bookmarks on Safari – and lose everything as soon as you
+log out.</p>
+  </li>
+  <li>
+    <p><strong>Auto log in the correct account.</strong> In “Security and Privacy”, uncheck
+“Require password for sleep and screen saver”.  Uncheck “Disable automatic
+login”.  Select the proper user in “Automatically log in as”, enter their
+password, and press “OK”.  For bonus points, you could set up a separate
+non-admin account for them, although I didn’t do this.</p>
+  </li>
+  <li>
+    <p><strong>Allow apps only from the app store.</strong> I didn’t do this, but I probably
+should have – she doesn’t use any applications that aren’t in-browser, so
+anything else is probably a security risk.</p>
+  </li>
+  <li>
+    <p><strong>Make the cursor bigger.</strong> She could barely see the cursor on the new
 computer, partly because the screen resolution was much higher.  Go to
-&ldquo;Universal Access&rdquo;, then &ldquo;Mouse and Trackpad&rdquo;, and make the cursor bigger for
-comfort.</p></li>
-<li><p><strong>Make everything bigger.</strong> Her new laptop has the same size screen, but much
-higher resolution.  LCDs don&rsquo;t look great below their natural resolution, but
+“Universal Access”, then “Mouse and Trackpad”, and make the cursor bigger for
+comfort.</p>
+  </li>
+  <li>
+    <p><strong>Make everything bigger.</strong> Her new laptop has the same size screen, but much
+higher resolution.  LCDs don’t look great below their natural resolution, but
 for someone without great eyes, the slight blurriness is not noticeable at
-all &mdash; and it&rsquo;s the best way to make sure everything is bigger.  I cut her
-resolution from 1440 by 900 to 1024 by 640.  Go to &ldquo;Displays&rdquo;, then
-&ldquo;Display&rdquo;, and reduce the resolution.</p></li>
-<li><p><strong>Always make the screen as bright as possible.</strong>  Still in &ldquo;Displays&rdquo;,
-increase the brightness to maximum.  Uncheck &ldquo;Automatically adjust
-brightness&rdquo;.  Then, go to &ldquo;Energy Saver&rdquo;, then &ldquo;Battery&rdquo; and disable
-&ldquo;Slightly dim the display when using this power source&rdquo;.</p></li>
-<li><p><strong>Increase general contrast.</strong>  Go to &ldquo;Universal Access&rdquo;, then &ldquo;Seeing&rdquo;, and
-raise the &ldquo;Enhance contrast&rdquo; setting a bit underneath &ldquo;Display&rdquo; &mdash; a little
-bit goes a long way.</p></li>
-<li><p><strong>Make the cursor slower.</strong> By default, the cursor is pretty jumpy if you
-don&rsquo;t have very sure fingers &mdash; go to &ldquo;Trackpad&rdquo; and lower the tracking
-speed.</p></li>
-<li><p><strong>Turn off two-finger scrolling.</strong>  In &ldquo;Trackpad&rdquo;, uncheck everything under
-&ldquo;Scroll &amp; Zoom&rdquo;.</p></li>
-<li><p><strong>Turn off trackpad actions, especially fancy multi-touch actions.</strong>  In
-&ldquo;Trackpad&rdquo;, uncheck everything under &ldquo;Point &amp; Click&rdquo; and &ldquo;More Gestures&rdquo;.</p></li>
-<li><p><strong>Maximize and always show the Dock.</strong> Go to &ldquo;Dock&rdquo;.  Drag the &ldquo;Size&rdquo; slider
-to make it big as possible.  Uncheck &ldquo;Automatically hide and show the Dock&rdquo;.</p></li>
-<li><p><strong>Turn off Hot Corners, Exposé, and all the other shit that unexpectedly
+all – and it’s the best way to make sure everything is bigger.  I cut her
+resolution from 1440 by 900 to 1024 by 640.  Go to “Displays”, then
+“Display”, and reduce the resolution.</p>
+  </li>
+  <li>
+    <p><strong>Always make the screen as bright as possible.</strong>  Still in “Displays”,
+increase the brightness to maximum.  Uncheck “Automatically adjust
+brightness”.  Then, go to “Energy Saver”, then “Battery” and disable
+“Slightly dim the display when using this power source”.</p>
+  </li>
+  <li>
+    <p><strong>Increase general contrast.</strong>  Go to “Universal Access”, then “Seeing”, and
+raise the “Enhance contrast” setting a bit underneath “Display” – a little
+bit goes a long way.</p>
+  </li>
+  <li>
+    <p><strong>Make the cursor slower.</strong> By default, the cursor is pretty jumpy if you
+don’t have very sure fingers – go to “Trackpad” and lower the tracking
+speed.</p>
+  </li>
+  <li>
+    <p><strong>Turn off two-finger scrolling.</strong>  In “Trackpad”, uncheck everything under
+“Scroll &amp; Zoom”.</p>
+  </li>
+  <li>
+    <p><strong>Turn off trackpad actions, especially fancy multi-touch actions.</strong>  In
+“Trackpad”, uncheck everything under “Point &amp; Click” and “More Gestures”.</p>
+  </li>
+  <li>
+    <p><strong>Maximize and always show the Dock.</strong> Go to “Dock”.  Drag the “Size” slider
+to make it big as possible.  Uncheck “Automatically hide and show the Dock”.</p>
+  </li>
+  <li>
+    <p><strong>Turn off Hot Corners, Exposé, and all the other shit that unexpectedly
 changes screen layout.</strong>  This is a big one, and can be extremely hard to
-explain over the phone when something goes wrong.  Go to &ldquo;Mission Control&rdquo;,
-and set all the &ldquo;Keyboard and Mouse Shortcuts&rdquo; to &ldquo;&ndash;&rdquo;.  Then click &ldquo;Hot
-Corners&hellip;&rdquo; and set all of them to &ldquo;&ndash;&rdquo;, too.</p></li>
-<li><p><strong>Remove unnecessary crap from the Dock.</strong>  The only app my grandma uses is
-Safari, really.  Sometimes on the phone it&rsquo;s helpful to have her go to System
+explain over the phone when something goes wrong.  Go to “Mission Control”,
+and set all the “Keyboard and Mouse Shortcuts” to “-“.  Then click “Hot
+Corners…” and set all of them to “-“, too.</p>
+  </li>
+  <li>
+    <p><strong>Remove unnecessary crap from the Dock.</strong>  The only app my grandma uses is
+Safari, really.  Sometimes on the phone it’s helpful to have her go to System
 Preferences.  I removed everything from the dock excepting those two things,
-which also made the Dock bigger, and easier for to click on Safari.</p></li>
-<li><p><strong>Remove unnecessary crap from the menu bar.</strong>  By default, Bluetooth and
+which also made the Dock bigger, and easier for to click on Safari.</p>
+  </li>
+  <li>
+    <p><strong>Remove unnecessary crap from the menu bar.</strong>  By default, Bluetooth and
 Time Machine are in the menu bar, and are useless and possibly confusing.
-Since she doesn&rsquo;t store any files on the computer, Time Machine is entirely
-unnecessary.  Go to their respective preference panes and remove them.</p></li>
-<li><p><strong>Always show scroll bars.</strong>  Personally, I hate Apple&rsquo;s move towards hiding
+Since she doesn’t store any files on the computer, Time Machine is entirely
+unnecessary.  Go to their respective preference panes and remove them.</p>
+  </li>
+  <li>
+    <p><strong>Always show scroll bars.</strong>  Personally, I hate Apple’s move towards hiding
 scrollbars unless you maneuver the mouse to that tiny space on the edge of
 a window you need to scroll.  And it sucks really, really hard for someone
-has trouble with slight trackpad movements.  Go to &ldquo;General&rdquo; in &ldquo;System
-Preferences&rdquo;, and select &ldquo;Always&rdquo; under &ldquo;Show scroll bars&rdquo;.  While you&rsquo;re
-there, you may as well change sidebar icon size to &ldquo;Large&rdquo;.</p></li>
-<li><p><strong>Make fonts bigger in Safari.</strong>  I set her up with Safari just because it&rsquo;s
+has trouble with slight trackpad movements.  Go to “General” in “System
+Preferences”, and select “Always” under “Show scroll bars”.  While you’re
+there, you may as well change sidebar icon size to “Large”.</p>
+  </li>
+  <li>
+    <p><strong>Make fonts bigger in Safari.</strong>  I set her up with Safari just because it’s
 bundled with the OS and is the most straightforward, although surely Firefox
-and Chrome have similar options.  Go to &ldquo;Preferences&rdquo;, then &ldquo;Advanced&rdquo;, then
-check off &ldquo;Never use font sizes smaller than&rdquo;.  I set hers to 16, although
+and Chrome have similar options.  Go to “Preferences”, then “Advanced”, then
+check off “Never use font sizes smaller than”.  I set hers to 16, although
 this would be a little risky for someone who browses more random sites (her
 repertoire is pretty set.) Some sites are nigh-on unusable when you futz with
-their formatting that much.  Probably 12 is safe.</p></li>
-<li><p><strong>Make the Safari homepage something useful.</strong>  Go to &ldquo;Preferences&rdquo; in
-Safari, then set both &ldquo;New windows open with&rdquo; and &ldquo;New tabs open with&rdquo; to
-&ldquo;Homepage&rdquo;.  Then set the homepage to Google, or something else that&rsquo;s not
-apple.com.</p></li>
-<li><p><strong>Log into all the services.  Make sure they stay logged in.</strong>  I logged her
-into Gmail, and checked off the option to keep her logged in.</p></li>
-<li><p><strong>Remove stupid bookmarks.</strong>  By default, Safari is loaded with a bunch of
-bookmarks she didn&rsquo;t need.  She doesn&rsquo;t use Facebook or Twitter.  She doesn&rsquo;t
-use iCloud.  I have no idea who uses the &ldquo;News&rdquo; or &ldquo;Popular&rdquo; folders.  I got
-rid of them all.</p></li>
+their formatting that much.  Probably 12 is safe.</p>
+  </li>
+  <li>
+    <p><strong>Make the Safari homepage something useful.</strong>  Go to “Preferences” in
+Safari, then set both “New windows open with” and “New tabs open with” to
+“Homepage”.  Then set the homepage to Google, or something else that’s not
+apple.com.</p>
+  </li>
+  <li>
+    <p><strong>Log into all the services.  Make sure they stay logged in.</strong>  I logged her
+into Gmail, and checked off the option to keep her logged in.</p>
+  </li>
+  <li>
+    <p><strong>Remove stupid bookmarks.</strong>  By default, Safari is loaded with a bunch of
+bookmarks she didn’t need.  She doesn’t use Facebook or Twitter.  She doesn’t
+use iCloud.  I have no idea who uses the “News” or “Popular” folders.  I got
+rid of them all.</p>
+  </li>
 </ul>
 
-
-<h3>Some stuff just sucks and you can&rsquo;t fix it</h3>
+<h3 id="some-stuff-just-sucks-and-you-cant-fix-it">Some stuff just sucks and you can’t fix it</h3>
 
 <p>The Adobe Flash updater is really confusing, requires multiple clicks just to
-upgrade, it doesn&rsquo;t explain what it does or why it needs to run.  It&rsquo;s
+upgrade, it doesn’t explain what it does or why it needs to run.  It’s
 extremely difficult to explain to someone without a pretty solid comfort with
 computers what the hell is going on when it keeps popping dialog boxes in front
 of them.  But keeping Flash up to date is important, and necessary for yotube
 Hopefully Flash will die soon and this can finally be done away with.</p>
 
 <p>The Notification Center menu item, and App Store stuff in general, is new
-and unnecessary for her in 10.8.  Apple&rsquo;s doesn&rsquo;t let you remove it.  That
-sucks, but it&rsquo;s something that hopefully won&rsquo;t cause any problems.</p>
+and unnecessary for her in 10.8.  Apple’s doesn’t let you remove it.  That
+sucks, but it’s something that hopefully won’t cause any problems.</p>
 
-<p>iCloud is a pain in the ass in a similar way.  I wasn&rsquo;t sure exactly how it was
+<p>iCloud is a pain in the ass in a similar way.  I wasn’t sure exactly how it was
 happening, but my Grandma kept asking me questions about iCloud that make me
-think it randomly pops up stuff asking her to set it up.  Since it didn&rsquo;t
-happen when I was there though, I couldn&rsquo;t be sure how to make it shut up.</p>
+think it randomly pops up stuff asking her to set it up.  Since it didn’t
+happen when I was there though, I couldn’t be sure how to make it shut up.</p>
 
-<h3>In conclusion</h3>
+<h3 id="in-conclusion">In conclusion</h3>
 
-<p>It&rsquo;s nuts that to make a new laptop relatively unthreatening and accessible for
+<p>It’s nuts that to make a new laptop relatively unthreatening and accessible for
 an enthusiastic 90-something requires going across a dozen System Preferences
 panes and sub-panes, and simply having to accept certain things as inevitably
-confusing.  I don&rsquo;t know what the solution is, and it may not be possible to
+confusing.  I don’t know what the solution is, and it may not be possible to
 make the set up something that my grandma itself could do, but the steps above
 took nearly an hour to figure out (and a good 20 minutes to reproduce.)</p>
 
 <p>Furthermore, most of the internet is a usability nightmare for the elderly.
 Tasks like clicking on a form field to fill it out, seeing that a white menu
-drop down on a white menu is, in fact, a drop-down, or navigating to a &ldquo;Log in&rdquo;
+drop down on a white menu is, in fact, a drop-down, or navigating to a “Log in”
 button can become idiotically arduous tasks.  The fad for hiding controls when
-you&rsquo;re not using them (looking at you, scroll bars) is particularly
+you’re not using them (looking at you, scroll bars) is particularly
 frustrating.  Controls themselves are often tiny, with no clear way to make
-them bigger &mdash; YouTube is particularly bad with this.</p>
+them bigger – YouTube is particularly bad with this.</p>
 
 <p>Setting up this laptop several times, and seeing her struggle through the
 usability nightmare that is most of the internet, made me think about how
-little account I take of usability in my own designs.  It&rsquo;s hard &mdash; without
-seeing someone actually work through these problems, the choke points aren&rsquo;t
-obvious.  In all honesty, I don&rsquo;t think it&rsquo;s practical for web designers to do
+little account I take of usability in my own designs.  It’s hard – without
+seeing someone actually work through these problems, the choke points aren’t
+obvious.  In all honesty, I don’t think it’s practical for web designers to do
 so: the expense is too great and the impact is small.  The makers of OSs and
 browsers are in a far better position to make using the internet more
 manageable for the elderly.</p>
@@ -269,8 +300,6 @@ manageable for the elderly.</p>
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">John Krauss</span></span>
 
       
@@ -282,11 +311,9 @@ manageable for the elderly.</p>
 
 
 
-  
 
 
-
-<time datetime="2013-05-26T00:00:00-04:00" data-updated="true">May 26<span>th</span>, 2013</time>
+<time datetime="2013-05-26T00:00:00-07:00" data-updated="true">May 26<span>th</span>, 2013</time>
       
 
 
@@ -294,10 +321,10 @@ manageable for the elderly.</p>
     <p class="meta">
       
         
-          <a class="basic-alignment left" href="/html-only-live-chat-No-JS" title="Previous Post: JS-Free Live Chat">&larr;<span class="hide-mobile">&nbsp;JS-Free Live Chat</span></a>
+          <a class="basic-alignment left" href="/html-only-live-chat-No-JS/" title="Previous Post: JS-Free Live Chat">&larr;<span class="hide-mobile">&nbsp;JS-Free Live Chat</span></a>
         
         
-          <a class="basic-alignment right" href="/newer-nyc-buildings-less-efficient" title="Next Post: New NYC buildings less efficient"><span class="hide-mobile">New NYC buildings less efficient&nbsp;</span>&rarr;</a>
+          <a class="basic-alignment right" href="/newer-nyc-buildings-less-efficient/" title="Next Post: New NYC buildings less efficient"><span class="hide-mobile">New NYC buildings less efficient&nbsp;</span>&rarr;</a>
         
       
     </p>
@@ -330,8 +357,8 @@ manageable for the elderly.</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.johnkrauss.com/nonagenarian-laptop';
-        var disqus_url = 'http://blog.johnkrauss.com/nonagenarian-laptop';
+        var disqus_identifier = 'http://blog.johnkrauss.com/nonagenarian-laptop/';
+        var disqus_url = 'http://blog.johnkrauss.com/nonagenarian-laptop/';
         var disqus_script = 'embed.js';
       
     (function () {
